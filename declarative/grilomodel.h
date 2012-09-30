@@ -32,10 +32,6 @@ class GriloDataSource;
 class GriloModel : public QAbstractListModel {
   Q_OBJECT
 
-  //  Q_PROPERTY(QString source READ source WRITE setSource NOTIFY sourceChanged);
-  //  Q_PROPERTY(GriloRegistry* registry READ registry WRITE setRegistry NOTIFY registryChanged);
-  //  Q_PROPERTY(QString rootId READ rootId WRITE setRootId NOTIFY rootIdChanged);
-
   Q_PROPERTY(GriloDataSource* source READ source WRITE setSource NOTIFY sourceChanged);
 
   friend class GriloDataSource;
