@@ -54,7 +54,7 @@ Item {
                                 onClicked: {
                                         console.log(mediaUrl);
                                         if (container) {
-                                                browser.baseUri = mediaId;
+                                                browser.baseUri = mediaUrl;
                                         }
                                         else {
                                                 audio.source = mediaUrl;
