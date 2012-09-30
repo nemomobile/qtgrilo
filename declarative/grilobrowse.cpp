@@ -55,17 +55,17 @@ bool GriloBrowse::refresh() {
 
   GrlMedia *root = 0;
 
+  GList *keys = keysAsList();
+  GrlOperationOptions *options = operationOptions(src, Browse);
+
   if (!m_uri.isEmpty() && m_uri.isValid()) {
     root = grl_source_get_media_from_uri_sync(src, m_uri.toString().toUtf8().data(),
-					      NULL, NULL, NULL);
-
+					      keys, options, NULL);
     if (!root) {
       qWarning() << "Failed to create media for" << m_uri;
     }
   }
 
-  GList *keys = keysAsList();
-  GrlOperationOptions *options = operationOptions(src, Browse);
   m_opId = grl_source_browse(src, root, keys, options, grilo_source_result_cb, this);
 
   if (root) {
