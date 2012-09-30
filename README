@@ -1,0 +1,13 @@
+QtDeclarative bindings for Grilo.
+=================================
+
+Qt4 declarative bindings for Grilo.
+Grilo is a framework for discovering and browsing media.
+
+Requirements:
+=============
+grilo >= 0.2.0
+
+Installation:
+=============
+qmake && make && make install
