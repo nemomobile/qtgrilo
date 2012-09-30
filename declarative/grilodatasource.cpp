@@ -24,6 +24,7 @@
 #include "grilomodel.h"
 #include "griloregistry.h"
 #include <QDebug>
+#include <grilo.h>
 
 static void fill_key_id(gpointer data, gpointer user_data) {
   QVariantList *varList = static_cast<QVariantList *>(user_data);
@@ -218,9 +219,12 @@ void GriloDataSource::grilo_source_result_cb(GrlSource *source, guint op_id,
 
   Q_UNUSED(source);
 
-  // TODO: error reporting?
+  // We get an error if the operation has been canceled:
   if (error) {
-    qCritical() << "Operation failed" << error->message;
+    if (error->domain != GRL_CORE_ERROR || error->code != GRL_CORE_ERROR_OPERATION_CANCELLED) {
+      // TODO: error reporting?
+      qCritical() << "Operation failed" << error->message;
+    }
   }
 
   GriloDataSource *that = static_cast<GriloDataSource *>(user_data);
@@ -228,7 +232,9 @@ void GriloDataSource::grilo_source_result_cb(GrlSource *source, guint op_id,
   if (that->m_opId != op_id) {
     qWarning() << "Got results belonging to an unknown browse id";
 
-    g_object_unref(media);
+    if (media) {
+      g_object_unref(media);
+    }
 
     return;
   }
