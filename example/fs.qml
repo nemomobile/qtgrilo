@@ -38,7 +38,7 @@ Item {
                                 }
 
                                 onAvailableChanged: console.log("Available ? " + available);
-                                onRootIdChanged: refresh();
+                                onBaseUriChanged: refresh();
                         }
                 }
 
@@ -54,7 +54,7 @@ Item {
                                 onClicked: {
                                         console.log(mediaUrl);
                                         if (container) {
-                                                browser.rootId = mediaId;
+                                                browser.baseUri = mediaId;
                                         }
                                         else {
                                                 audio.source = mediaUrl;
