@@ -25,6 +25,7 @@
 #include "grilobrowse.h"
 #include "grilosearch.h"
 #include "grilomultisearch.h"
+#include "grilomedia.h"
 #include <QtDeclarative>
 
 GriloPlugin::GriloPlugin(QObject *parent) :
@@ -44,6 +45,7 @@ void GriloPlugin::registerTypes(const char *uri) {
   // TODO: Symbol error when used :(
   //  qmlRegisterType<GriloMultiSearch>(uri, 0, 1, "GriloMultiSearch");
   qmlRegisterType<GriloDataSource>();
+  qmlRegisterUncreatableType<GriloMedia>(uri, 0, 0, "GriloMedia", "GriloMedia can be obtained from GriloModel");
 }
 
 Q_EXPORT_PLUGIN2(qmlgriloplugin, GriloPlugin);

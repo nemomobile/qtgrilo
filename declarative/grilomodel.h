@@ -38,10 +38,7 @@ class GriloModel : public QAbstractListModel {
 
 public:
   enum {
-    TitleRole = Qt::UserRole + 1,
-    IdRole,
-    UrlRole,
-    ContainerRole,
+    MediaRole = Qt::UserRole + 1,
   };
 
   GriloModel(QObject *parent = 0);

@@ -28,10 +28,7 @@ GriloModel::GriloModel(QObject *parent) :
   QAbstractListModel(parent) {
 
   QHash<int, QByteArray> roles;
-  roles[TitleRole] = "mediaTitle";
-  roles[IdRole] = "mediaId";
-  roles[UrlRole] = "mediaUrl";
-  roles[ContainerRole] = "container";
+  roles[MediaRole] = "media";
 
   setRoleNames(roles);
 }
@@ -54,18 +51,10 @@ QVariant GriloModel::data(const QModelIndex& index, int role) const {
   }
 
   const GriloMedia *media = m_source->media()->at(index.row());
+
   switch (role) {
-  case TitleRole:
-    return media->title();
-
-  case IdRole:
-    return media->id();
-
-  case UrlRole:
-    return media->url();
-
-  case ContainerRole:
-    return media->isContainer();
+  case MediaRole:
+    return QVariant::fromValue((QObject *)media);
   }
 
   return QVariant();

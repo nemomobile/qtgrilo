@@ -52,12 +52,12 @@ Item {
                                 id: mouse
                                 anchors.fill: parent
                                 onClicked: {
-                                        console.log(mediaUrl);
-                                        if (container) {
-                                                browser.baseUri = mediaUrl;
+                                        console.log(media.url);
+                                        if (media.container) {
+                                                browser.baseUri = media.url;
                                         }
                                         else {
-                                                audio.source = mediaUrl;
+                                                audio.source = media.url;
                                                 audio.play();
                                                 //                                        player.
                                         }
@@ -66,7 +66,7 @@ Item {
                                 Text {
                                         id: label
                                         width: parent.width
-                                        text: mediaTitle
+                                        text: media.title
                                         height: 30
                                 }
                         }
