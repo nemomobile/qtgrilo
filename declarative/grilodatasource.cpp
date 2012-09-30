@@ -24,7 +24,6 @@
 #include "grilomodel.h"
 #include "griloregistry.h"
 #include <QDebug>
-#include <grilo.h>
 
 static void fill_key_id(gpointer data, gpointer user_data) {
   QVariantList *varList = static_cast<QVariantList *>(user_data);
