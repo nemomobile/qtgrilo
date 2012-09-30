@@ -120,11 +120,17 @@ bool GriloQuery::isAvailable() const {
 }
 
 void GriloQuery::availableSourcesChanged() {
-  if (!m_available) {
-    m_available = isAvailable();
+  bool available = isAvailable();
 
-    if (m_available) {
-      emit availabilityChanged();
-    }
+  if (m_available != available) {
+    m_available = available;
+
+    emit availabilityChanged();
+  }
+
+  if (!m_available && m_opId) {
+    // A source has disappeared while an operation is already running.
+    // Most grilo will crash soon but we will just reset the opId
+    m_opId = 0;
   }
 }
