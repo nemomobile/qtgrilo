@@ -57,7 +57,9 @@ QString GriloMedia::title() const {
 }
 
 QUrl GriloMedia::url() const {
-  return QUrl(grl_media_get_url(m_media));
+  QUrl url = QUrl::fromEncoded(QByteArray(grl_media_get_url(m_media)));
+
+  return url;
 }
 
 bool GriloMedia::isContainer() const {
