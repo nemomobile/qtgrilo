@@ -45,6 +45,10 @@ public:
   QUrl url() const;
   bool isContainer() const;
 
+  GrlMedia *media();
+
+  Q_INVOKABLE QString serialize();
+
 private:
   GrlMedia *m_media;
 };

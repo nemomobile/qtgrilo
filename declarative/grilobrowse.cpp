@@ -22,15 +22,17 @@
 #include "grilobrowse.h"
 #include <QDebug>
 #include "griloregistry.h"
+#include "grilomedia.h"
 
 GriloBrowse::GriloBrowse(QDeclarativeItem *parent) :
   GriloDataSource(parent),
+  m_media(0),
   m_available(false) {
 
 }
 
 GriloBrowse::~GriloBrowse() {
-
+  setBaseMedia(QString());
 }
 
 bool GriloBrowse::refresh() {
@@ -58,15 +60,8 @@ bool GriloBrowse::refresh() {
   GList *keys = keysAsList();
   GrlOperationOptions *options = operationOptions(src, Browse);
 
-  if (!m_uri.isEmpty() && m_uri.isValid()) {
-    root = grl_source_get_media_from_uri_sync(src, m_uri.toString().toUtf8().data(),
-					      keys, options, NULL);
-    if (!root) {
-      qWarning() << "Failed to create media for" << m_uri;
-    }
-  }
-
-  m_opId = grl_source_browse(src, root, keys, options, grilo_source_result_cb, this);
+  m_opId = grl_source_browse(src, m_media ? m_media->media() : NULL,
+			     keys, options, grilo_source_result_cb, this);
 
   if (root) {
     g_object_unref(root);
@@ -91,15 +86,34 @@ void GriloBrowse::setSource(const QString& source) {
   }
 }
 
-QUrl GriloBrowse::baseUri() const {
-  return m_uri;
+QString GriloBrowse::baseMedia() const {
+  return m_baseMedia;
 }
 
-void GriloBrowse::setBaseUri(const QUrl& uri) {
-  if (m_uri != uri) {
-    m_uri = uri;
-    emit baseUriChanged();
+void GriloBrowse::setBaseMedia(const QString& media){
+  if (m_baseMedia == media) {
+    return;
   }
+
+  if (m_media) {
+    delete m_media;
+    m_media = 0;
+  }
+
+  m_baseMedia = media;
+
+  if (!media.isEmpty()) {
+    GrlMedia *m = grl_media_unserialize(media.toUtf8().data());
+
+    if (m) {
+      m_media = new GriloMedia(m);
+    }
+    else {
+      qDebug() << "Failed to create GrlMedia from" << media;
+    }
+  }
+
+  emit baseMediaChanged();
 }
 
 QVariantList GriloBrowse::supportedKeys() const {

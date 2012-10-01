@@ -32,6 +32,22 @@ GriloMedia::~GriloMedia() {
   m_media = 0;
 }
 
+GrlMedia *GriloMedia::media() {
+  return m_media;
+}
+
+QString GriloMedia::serialize() {
+  QString result;
+  gchar *str = grl_media_serialize(m_media);
+
+  if (str) {
+    result = QString::fromUtf8(str);
+    g_free(str);
+  }
+
+  return result;
+}
+
 QString GriloMedia::id() const {
   return grl_media_get_id(m_media);
 }

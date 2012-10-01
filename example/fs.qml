@@ -7,8 +7,7 @@ Item {
         height: 600
 
         ListView {
-                width: parent.width
-                height: parent.height * 2/3
+                anchors.fill: parent
 
                 GriloRegistry {
                         id: registry
@@ -26,8 +25,6 @@ Item {
                                 id: browser
                                 source: "grl-filesystem"
                                 registry: registry
-//                                count: 2
-//                                skip: 1
                                 metadataKeys: [GriloBrowse.Title]
                                 typeFilter: [GriloBrowse.Audio]
                                 Component.onCompleted: {
@@ -38,7 +35,7 @@ Item {
                                 }
 
                                 onAvailableChanged: console.log("Available ? " + available);
-                                onBaseUriChanged: refresh();
+                                onBaseMediaChanged: refresh();
                         }
                 }
 
@@ -46,7 +43,7 @@ Item {
                         color: mouse.pressed ? "steelblue" : "white"
 
                         width: parent.width
-                        height: 20
+                        height: 40
 
                         MouseArea {
                                 id: mouse
@@ -54,12 +51,11 @@ Item {
                                 onClicked: {
                                         console.log(media.url);
                                         if (media.container) {
-                                                browser.baseUri = media.url;
+                                                browser.baseMedia = media.serialize();
                                         }
                                         else {
                                                 audio.source = media.url;
                                                 audio.play();
-                                                //                                        player.
                                         }
                                 }
 
@@ -68,6 +64,7 @@ Item {
                                         width: parent.width
                                         text: media.title
                                         height: 30
+                                        anchors.verticalCenter: parent.verticalCenter
                                 }
                         }
                 }
@@ -75,7 +72,5 @@ Item {
 
         Audio {
                 id: audio
-                //                id: playMusic
-                //                source: "music.wav"
         }
 }
