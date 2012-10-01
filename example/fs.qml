@@ -64,6 +64,7 @@ Item {
                                         width: parent.width
                                         text: media.title
                                         height: 30
+                                        font.pixelSize: 36
                                         anchors.verticalCenter: parent.verticalCenter
                                 }
                         }
