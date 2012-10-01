@@ -75,5 +75,7 @@ Item {
                 id: video
                 anchors.top: list.bottom
                 height: parent.height / 3
+                width: parent.width
+                anchors.horizontalCenter: paremt.horizontalCenter
         }
 }
