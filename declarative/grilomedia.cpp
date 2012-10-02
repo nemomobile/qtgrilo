@@ -38,7 +38,7 @@ GrlMedia *GriloMedia::media() {
 
 QString GriloMedia::serialize() {
   QString result;
-  gchar *str = grl_media_serialize(m_media);
+  gchar *str =  grl_media_serialize_extended(m_media, GRL_MEDIA_SERIALIZE_FULL, NULL);
 
   if (str) {
     result = QString::fromUtf8(str);
