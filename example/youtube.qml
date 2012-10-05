@@ -28,7 +28,7 @@ Item {
                                 source: "grl-youtube"
                                 registry: registry
                                 metadataKeys: [GriloBrowse.Title, GriloBrowse.Url]
-                                count: 10
+                                count: 3
                                 Component.onCompleted: {
                                         refresh();
                                         console.log("Refreshing");
