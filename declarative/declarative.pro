@@ -19,6 +19,6 @@ HEADERS += griloplugin.h grilomodel.h griloregistry.h grilomedia.h grilodatasour
 
 target.path = $$[QT_INSTALL_IMPORTS]/$$PLUGIN_IMPORT_PATH
 qml.files = qmldir
-qml.path = $$[QT_INSTALL_IMPORTS]/$$$$PLUGIN_IMPORT_PATH
+qml.path = $$[QT_INSTALL_IMPORTS]/$$PLUGIN_IMPORT_PATH
 
 INSTALLS += target qml
