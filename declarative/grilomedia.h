@@ -35,6 +35,7 @@ class GriloMedia : public QObject {
   Q_PROPERTY(QString title READ title CONSTANT);
   Q_PROPERTY(QUrl url READ url CONSTANT);
   Q_PROPERTY(bool container READ isContainer CONSTANT);
+  Q_PROPERTY(int duration READ duration CONSTANT);
 
 public:
   GriloMedia(GrlMedia *media, QObject *parent = 0);
@@ -44,7 +45,7 @@ public:
   QString title() const;
   QUrl url() const;
   bool isContainer() const;
-
+  int duration() const;
   GrlMedia *media();
 
   Q_INVOKABLE QString serialize();

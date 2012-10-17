@@ -25,7 +25,7 @@ Item {
                                 id: browser
                                 source: "grl-tracker-source"
                                 registry: registry
-                                metadataKeys: [GriloBrowse.Title, GriloBrowse.Url]
+                                metadataKeys: [GriloBrowse.Title, GriloBrowse.Url, GriloBrowse.Duration]
                                 typeFilter: [GriloBrowse.Audio]
                                 Component.onCompleted: {
                                         console.log(browser.supportedKeys);
@@ -65,12 +65,22 @@ Item {
 
                                 Text {
                                         id: label
-                                        width: parent.width
+                                        width: parent.width - 50
                                         text: media.title
                                         height: 30
                                         font.pixelSize: 36
                                         anchors.verticalCenter: parent.verticalCenter
                                 }
+
+				Text {
+					id: duration
+					text: media.duration
+					font.pixelSize: 36
+					anchors.verticalCenter: parent.verticalCenter
+					height: label.height
+					width: 50
+					anchors.left: label.right
+				}
                         }
                 }
         }

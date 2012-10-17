@@ -62,6 +62,10 @@ QUrl GriloMedia::url() const {
   return url;
 }
 
+int GriloMedia::duration() const {
+  return grl_media_get_duration(m_media);
+}
+
 bool GriloMedia::isContainer() const {
   return GRL_IS_MEDIA_BOX(m_media) == TRUE;
 }
