@@ -55,17 +55,11 @@ bool GriloBrowse::refresh() {
     return false;
   }
 
-  GrlMedia *root = 0;
-
   GList *keys = keysAsList();
   GrlOperationOptions *options = operationOptions(src, Browse);
 
-  m_opId = grl_source_browse(src, m_media ? m_media->media() : NULL,
+  m_opId = grl_source_browse(src, rootMedia(),
 			     keys, options, grilo_source_result_cb, this);
-
-  if (root) {
-    g_object_unref(root);
-  }
 
   g_object_unref(options);
   g_list_free(keys);
@@ -101,17 +95,6 @@ void GriloBrowse::setBaseMedia(const QString& media){
   }
 
   m_baseMedia = media;
-
-  if (!media.isEmpty()) {
-    GrlMedia *m = grl_media_unserialize(media.toUtf8().data());
-
-    if (m) {
-      m_media = new GriloMedia(m);
-    }
-    else {
-      qDebug() << "Failed to create GrlMedia from" << media;
-    }
-  }
 
   emit baseMediaChanged();
 }
@@ -161,4 +144,24 @@ void GriloBrowse::availableSourcesChanged() {
     // Most grilo will crash soon but we will just reset the opId
     m_opId = 0;
   }
+}
+
+GrlMedia *GriloBrowse::rootMedia() {
+  if (m_media) {
+    return m_media->media();
+  }
+  else if (m_baseMedia.isEmpty()) {
+    return NULL;
+  }
+
+  GrlMedia *m = grl_media_unserialize(m_baseMedia.toUtf8().data());
+  if (m) {
+    m_media = new GriloMedia(m);
+    return m_media->media();
+  }
+  else {
+    qDebug() << "Failed to create GrlMedia from" << m_baseMedia;
+  }
+
+  return NULL;
 }

@@ -64,7 +64,10 @@ signals:
 private:
   void availableSourcesChanged();
 
+  GrlMedia *rootMedia();
+
   QString m_source;
+
   GriloMedia *m_media;
   QString m_baseMedia;
   QVariantList m_slowKeys;
