@@ -69,3 +69,7 @@ int GriloMedia::duration() const {
 bool GriloMedia::isContainer() const {
   return GRL_IS_MEDIA_BOX(m_media) == TRUE;
 }
+
+QString GriloMedia::author() const {
+  return grl_media_get_author(m_media);
+}
