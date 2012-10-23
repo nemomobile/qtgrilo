@@ -24,42 +24,33 @@
 #ifndef GRILO_REGISTRY_H
 #define GRILO_REGISTRY_H
 
-#include <QDeclarativeItem>
-#include <grilo.h>
+#include <QObject>
+#include <QStringList>
 
-class GriloRegistry : public QDeclarativeItem {
+class GriloRegistryPrivate;
+
+class GriloRegistry : public QObject {
   Q_OBJECT
 
   Q_PROPERTY(QStringList availableSources READ availableSources NOTIFY availableSourcesChanged);
-  Q_PROPERTY(QString configurationFile READ configurationFile WRITE setConfigurationFile NOTIFY configurationFileChanged);
+
+  friend class GriloRegistryPrivate;
 
 public:
-  GriloRegistry(QDeclarativeItem *parent = 0);
+  GriloRegistry(QObject *parent = 0);
   ~GriloRegistry();
 
-  virtual void componentComplete();
   QStringList availableSources();
 
-  Q_INVOKABLE bool loadAll();
-
-  GrlSource *lookupSource(const QString& id);
-
-  QString configurationFile() const;
-  void setConfigurationFile(const QString& file);
+  bool loadConfigurationFile(const QString& configurationFile);
+  bool loadAllPlugins();
 
 signals:
   void availableSourcesChanged();
   void configurationFileChanged();
 
 private:
-  static void grilo_source_added(GrlRegistry *registry, GrlSource *src, gpointer user_data);
-  static void grilo_source_removed(GrlRegistry *registry, GrlSource *src, gpointer user_data);
-
-  void loadConfigurationFile();
-
-  GrlRegistry *m_registry;
-  QStringList m_sources;
-  QString m_configurationFile;
+  GriloRegistryPrivate *d_ptr;
 };
 
 #endif /* GRILO_REGISTRY_H */

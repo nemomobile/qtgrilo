@@ -1,2 +1,3 @@
 TEMPLATE = subdirs
-SUBDIRS = declarative
+SUBDIRS = lib declarative
+CONFIG += ordered
