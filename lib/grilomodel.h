@@ -34,6 +34,7 @@ class GriloModel : public QAbstractListModel {
 
   Q_PROPERTY(GriloDataSource* source READ source WRITE setSource NOTIFY sourceChanged);
 
+  friend class GriloDataSourcePrivate;
   friend class GriloDataSource;
 
 public:

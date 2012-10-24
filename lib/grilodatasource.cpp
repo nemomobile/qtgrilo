@@ -20,7 +20,10 @@
  */
 
 #include "grilodatasource.h"
+#include "grilodatasource_p.h"
+
 #include "grilomedia.h"
+#include "grilomedia_p.h"
 #include "grilomodel.h"
 #include "griloregistry.h"
 #include <QDebug>
@@ -30,80 +33,72 @@ static void fill_key_id(gpointer data, gpointer user_data) {
   varList->append(GriloDataSource::MetadataKeys(GRLPOINTER_TO_KEYID(data)));
 }
 
-GriloDataSource::GriloDataSource(QDeclarativeItem *parent) :
-  QDeclarativeItem(parent),
-  m_opId(0),
-  m_registry(0),
-  m_count(0),
-  m_skip(0) {
+GriloDataSource::GriloDataSource(GriloDataSourcePrivate *d, QObject *parent) :
+  QObject(parent),
+  d_ptr(d) {
 
   m_metadataKeys << Title;
   m_typeFilter << None;
+
+  //  setRegistry(m_registry);
 }
 
 GriloDataSource::~GriloDataSource() {
-  m_models.clear();
+  d_ptr->m_models.clear();
   cancelRefresh();
+  delete d_ptr; d_ptr = 0;
 }
 
 const QList<GriloMedia *> *GriloDataSource::media() const {
-  return &m_media;
+  return &d_ptr->m_media;
 }
 
 void GriloDataSource::addModel(GriloModel *model) {
-  if (m_models.indexOf(model) == -1) {
-    m_models << model;
+  if (d_ptr->m_models.indexOf(model) == -1) {
+    d_ptr->m_models << model;
   }
 }
 
 void GriloDataSource::removeModel(GriloModel *model) {
-  if (int index = m_models.indexOf(model) != -1) {
-    m_models.removeAt(index);
+  if (int index = d_ptr->m_models.indexOf(model) != -1) {
+    d_ptr->m_models.removeAt(index);
   }
-}
-
-void GriloDataSource::prefill(GriloModel *model) {
-  if (m_media.isEmpty()) {
-    return;
-  }
-
-  model->beginInsertRows(QModelIndex(), 0, m_media.size() - 1);
-  model->endInsertRows();
 }
 
 void GriloDataSource::addMedia(GriloMedia *media) {
-  int size = m_media.size();
+  int size = d_ptr->m_media.size();
 
-  foreach (GriloModel *model, m_models) {
+  foreach (GriloModel *model, d_ptr->m_models) {
     model->beginInsertRows(QModelIndex(), size, size);
   }
 
-  m_media << media;
+  d_ptr->m_media << media;
 
-  foreach (GriloModel *model, m_models) {
+  foreach (GriloModel *model, d_ptr->m_models) {
     model->endInsertRows();
   }
 }
 
 void GriloDataSource::clearMedia() {
-  int size = m_media.size();
+  int size = d_ptr->m_media.size();
 
-  foreach (GriloModel *model, m_models) {
+  foreach (GriloModel *model, d_ptr->m_models) {
     model->beginRemoveRows(QModelIndex(), 0, size - 1);
   }
 
-  qDeleteAll(m_media);
-  m_media.clear();
+  qDeleteAll(d_ptr->m_media);
+  d_ptr->m_media.clear();
 
-  foreach (GriloModel *model, m_models) {
+  foreach (GriloModel *model, d_ptr->m_models) {
     model->endRemoveRows();
   }
 }
 
 GriloRegistry *GriloDataSource::registry() const {
-  return m_registry;
+  return d_ptr->m_registry;
 }
 
+#if 0
 void GriloDataSource::setRegistry(GriloRegistry *registry) {
   // Registry change is not allowed for now.
 
@@ -117,25 +112,26 @@ void GriloDataSource::setRegistry(GriloRegistry *registry) {
     emit registryChanged();
   }
 }
+#endif
 
 int GriloDataSource::count() const {
-  return m_count;
+  return d_ptr->m_count;
 }
 
 void GriloDataSource::setCount(int count) {
-  if (m_count != count) {
-    m_count = count;
+  if (d_ptr->m_count != count) {
+    d_ptr->m_count = count;
     emit countChanged();
   }
 }
 
 int GriloDataSource::skip() const {
-  return m_skip;
+  return d_ptr->m_skip;
 }
 
 void GriloDataSource::setSkip(int skip) {
-  if (m_skip != skip) {
-    m_skip = skip;
+  if (d_ptr->m_skip != skip) {
+    d_ptr->m_skip = skip;
     emit skipChanged();
   }
 }
@@ -172,10 +168,10 @@ GrlOperationOptions *GriloDataSource::operationOptions(GrlSource *src, const Ope
   GrlOperationOptions *options = grl_operation_options_new(caps);
 
   grl_operation_options_set_flags(options, GRL_RESOLVE_IDLE_RELAY); // TODO: hardcoded
-  grl_operation_options_set_skip(options, m_skip);
+  grl_operation_options_set_skip(options, d_ptr->m_skip);
 
-  if (m_count != 0) {
-    grl_operation_options_set_count(options, m_count);
+  if (d_ptr->m_count != 0) {
+    grl_operation_options_set_count(options, d_ptr->m_count);
   }
 
   int typeFilter = 0;
@@ -204,9 +200,9 @@ GList *GriloDataSource::keysAsList() {
 }
 
 void GriloDataSource::cancelRefresh() {
-  if (m_opId != 0) {
-    grl_operation_cancel(m_opId);
-    m_opId = 0;
+  if (d_ptr->m_opId != 0) {
+    grl_operation_cancel(d_ptr->m_opId);
+    d_ptr->m_opId = 0;
   }
 
   clearMedia();
@@ -228,7 +224,7 @@ void GriloDataSource::grilo_source_result_cb(GrlSource *source, guint op_id,
 
   GriloDataSource *that = static_cast<GriloDataSource *>(user_data);
 
-  if (that->m_opId != op_id) {
+  if (that->d_ptr->m_opId != op_id) {
     qWarning() << "Got results belonging to an unknown browse id";
 
     if (media) {
@@ -239,11 +235,11 @@ void GriloDataSource::grilo_source_result_cb(GrlSource *source, guint op_id,
   }
 
   if (media) {
-    that->addMedia(new GriloMedia(media));
+    that->addMedia(new GriloMedia(new GriloMediaPrivate(media)));
   }
 
   if (remaining == 0) {
-    that->m_opId = 0;
+    that->d_ptr->m_opId = 0;
   }
 }
 

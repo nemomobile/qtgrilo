@@ -6,13 +6,16 @@ PKGCONFIG = grilo-0.2
 
 TARGET = qtgrilo
 
-SOURCES += griloregistry.cpp
-HEADERS += griloregistry.h griloregistry_p.h
+SOURCES += griloregistry.cpp grilomedia.cpp grilodatasource.cpp
+HEADERS += $$PRIVATE_HEADERS $$PUBLIC_HEADERS
 
-#SOURCES += grilomodel.cpp griloregistry.cpp grilomedia.cpp grilodatasource.cpp \
+PRIVATE_HEADERS = griloregistry_p.h grilomedia_p.h grilodatasource_p.h
+PUBLIC_HEADERS = griloregistry.h grilomedia.h grilodatasource.h
+
+#SOURCES += grilomodel.cpp griloregistry.cpp grilodatasource.cpp \
 #           grilobrowse.cpp grilosearch.cpp griloquery.cpp grilomultisearch.cpp
 
-#HEADERS += grilomodel.h griloregistry.h grilomedia.h grilodatasource.h \
+#HEADERS += grilomodel.h griloregistry.h grilodatasource.h \
 #           grilobrowse.h grilosearch.h griloquery.h grilomultisearch.h
 
 target.path = /usr/lib/
