@@ -25,7 +25,7 @@
 #define GRILO_DATA_SOURCE_H
 
 #include <QObject>
-#include <grilo.h>
+#include <grilo.h> // TODO: get rid of that include
 #include <QVariant>
 
 class GriloMedia;
@@ -44,6 +44,8 @@ class GriloDataSource : public QObject {
   Q_ENUMS(MetadataKeys);
   Q_ENUMS(TypeFilter);
   // TODO: metadata resolution flags ?
+
+  friend class GriloDataSourcePrivate;
 
 public:
   enum MetadataKeys {
@@ -124,42 +126,18 @@ public:
   virtual bool refresh() = 0;
 
 public slots:
-  void cancelRefresh();
-
-  virtual void availableSourcesChanged() = 0;
+  void cancel();
 
 signals:
-  void registryChanged();
   void countChanged();
   void skipChanged();
   void metadataKeysChanged();
   void typeFilterChanged();
+  void mediaCleared();
+  void mediaAdded(GriloMedia *media);
 
 protected:
   GriloDataSourcePrivate *d_ptr;
-
-  enum OperationType {
-    Browse = GRL_OP_BROWSE,
-    Search = GRL_OP_SEARCH,
-  };
-
-  static void grilo_source_result_cb(GrlSource *source, guint browse_id,
-				     GrlMedia *media, guint remaining,
-				     gpointer user_data, const GError *error);
-
-  void addMedia(GriloMedia *media);
-  void clearMedia();
-
-  GrlOperationOptions *operationOptions(GrlSource *src, const OperationType& type);
-  GList *keysAsList();
-
-  QVariantList listToVariantList(const GList *keys) const;
-
-  QVariantList m_metadataKeys;
-  QVariantList m_typeFilter;
-
-private:
-  void setRegistry(GriloRegistry *registry);
 };
 
 #endif /* GRILO_DATA_SOURCE_H */
