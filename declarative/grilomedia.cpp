@@ -73,3 +73,11 @@ bool GriloMedia::isContainer() const {
 QString GriloMedia::author() const {
   return grl_media_get_author(m_media);
 }
+
+QString GriloMedia::album() const {
+  if (GRL_IS_MEDIA_AUDIO(m_media)) {
+    return grl_media_audio_get_album(GRL_MEDIA_AUDIO(m_media));
+  }
+
+  return QString();
+}

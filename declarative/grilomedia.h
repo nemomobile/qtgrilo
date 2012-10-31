@@ -37,6 +37,7 @@ class GriloMedia : public QObject {
   Q_PROPERTY(bool container READ isContainer CONSTANT);
   Q_PROPERTY(int duration READ duration CONSTANT);
   Q_PROPERTY(QString author READ author CONSTANT);
+  Q_PROPERTY(QString album READ album CONSTANT);
 
 public:
   GriloMedia(GrlMedia *media, QObject *parent = 0);
@@ -48,6 +49,7 @@ public:
   bool isContainer() const;
   int duration() const;
   QString author() const;
+  QString album() const;
 
   GrlMedia *media();
 
