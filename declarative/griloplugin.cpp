@@ -25,6 +25,7 @@
 #include "grilobrowse.h"
 #include "grilosearch.h"
 #include "grilomultisearch.h"
+#include "griloquery.h"
 #include "grilomedia.h"
 #include <QtDeclarative>
 
@@ -42,6 +43,7 @@ void GriloPlugin::registerTypes(const char *uri) {
   qmlRegisterType<GriloModel>(uri, 0, 1, "GriloModel");
   qmlRegisterType<GriloBrowse>(uri, 0, 1, "GriloBrowse");
   qmlRegisterType<GriloSearch>(uri, 0, 1, "GriloSearch");
+  qmlRegisterType<GriloQuery>(uri, 0, 1, "GriloQuery");
   // TODO: Symbol error when used :(
   //  qmlRegisterType<GriloMultiSearch>(uri, 0, 1, "GriloMultiSearch");
   qmlRegisterType<GriloDataSource>();
