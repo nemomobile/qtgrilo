@@ -81,3 +81,21 @@ QString GriloMedia::album() const {
 
   return QString();
 }
+
+QString GriloMedia::artist() const
+{
+  if (GRL_IS_MEDIA_AUDIO(m_media)) {
+    return grl_media_audio_get_artist(GRL_MEDIA_AUDIO(m_media));
+  }
+
+  return QString();
+}
+
+int GriloMedia::childCount() const
+{
+  if (GRL_IS_MEDIA_BOX(m_media)) {
+    return grl_media_box_get_childcount(GRL_MEDIA_BOX(m_media));
+  }
+
+  return GRL_METADATA_KEY_CHILDCOUNT_UNKNOWN;
+}
