@@ -38,7 +38,7 @@ GrlMedia *GriloMedia::media() {
 
 QString GriloMedia::serialize() {
   QString result;
-  gchar *str =  grl_media_serialize_extended(m_media, GRL_MEDIA_SERIALIZE_FULL, NULL);
+  gchar *str = grl_media_serialize_extended(m_media, GRL_MEDIA_SERIALIZE_FULL, NULL);
 
   if (str) {
     result = QString::fromUtf8(str);
@@ -49,11 +49,11 @@ QString GriloMedia::serialize() {
 }
 
 QString GriloMedia::id() const {
-  return grl_media_get_id(m_media);
+  return QString::fromUtf8(grl_media_get_id(m_media));
 }
 
 QString GriloMedia::title() const {
-  return grl_media_get_title(m_media);
+  return QString::fromUtf8(grl_media_get_title(m_media));
 }
 
 QUrl GriloMedia::url() const {
@@ -71,12 +71,12 @@ bool GriloMedia::isContainer() const {
 }
 
 QString GriloMedia::author() const {
-  return grl_media_get_author(m_media);
+  return QString::fromUtf8(grl_media_get_author(m_media));
 }
 
 QString GriloMedia::album() const {
   if (GRL_IS_MEDIA_AUDIO(m_media)) {
-    return grl_media_audio_get_album(GRL_MEDIA_AUDIO(m_media));
+    return QString::fromUtf8(grl_media_audio_get_album(GRL_MEDIA_AUDIO(m_media)));
   }
 
   return QString();
@@ -85,7 +85,7 @@ QString GriloMedia::album() const {
 QString GriloMedia::artist() const
 {
   if (GRL_IS_MEDIA_AUDIO(m_media)) {
-    return grl_media_audio_get_artist(GRL_MEDIA_AUDIO(m_media));
+    return QString::fromUtf8(grl_media_audio_get_artist(GRL_MEDIA_AUDIO(m_media)));
   }
 
   return QString();

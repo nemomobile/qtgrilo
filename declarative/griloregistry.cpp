@@ -70,7 +70,8 @@ void GriloRegistry::setConfigurationFile(const QString& file) {
 
 void GriloRegistry::loadConfigurationFile() {
   if (!m_configurationFile.isEmpty() && m_registry) {
-    grl_registry_add_config_from_file(m_registry, m_configurationFile.toLocal8Bit().data(), NULL);
+    grl_registry_add_config_from_file(m_registry, m_configurationFile.toLocal8Bit().constData(),
+				      NULL);
   }
 }
 
@@ -107,7 +108,7 @@ void GriloRegistry::grilo_source_removed(GrlRegistry *registry, GrlSource *src,
 
 GrlSource *GriloRegistry::lookupSource(const QString& id) {
   if (m_registry) {
-    return grl_registry_lookup_source(m_registry, id.toAscii().data());
+    return grl_registry_lookup_source(m_registry, id.toAscii().constData());
   }
 
   return 0;

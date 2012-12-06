@@ -154,7 +154,7 @@ GrlMedia *GriloBrowse::rootMedia() {
     return NULL;
   }
 
-  GrlMedia *m = grl_media_unserialize(m_baseMedia.toUtf8().data());
+  GrlMedia *m = grl_media_unserialize(m_baseMedia.toUtf8().constData());
   if (m) {
     m_media = new GriloMedia(m);
     return m_media->media();
