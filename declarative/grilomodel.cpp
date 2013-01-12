@@ -1,6 +1,6 @@
 /*!
  *
- * Copyright (C) 2012 Jolla Ltd.
+ * Copyright (C) 2012-2013 Jolla Ltd.
  *
  * Contact: Mohammed Hassan <mohammed.hassan@jollamobile.com>
  *
@@ -50,11 +50,9 @@ QVariant GriloModel::data(const QModelIndex& index, int role) const {
     return QVariant();
   }
 
-  const GriloMedia *media = m_source->media()->at(index.row());
-
   switch (role) {
   case MediaRole:
-    return QVariant::fromValue((QObject *)media);
+    return QVariant::fromValue(get(index.row()));
   }
 
   return QVariant();
@@ -88,4 +86,12 @@ void GriloModel::setSource(GriloDataSource *source) {
   if (m_source) {
     m_source->prefill(this);
   }
+}
+
+QObject *GriloModel::get(int index) const {
+  if (index < 0 || index >= rowCount()) {
+    return 0;
+  }
+
+  return m_source->media()->at(index);
 }

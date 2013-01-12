@@ -2,7 +2,7 @@
 
 /*!
  *
- * Copyright (C) 2012 Jolla Ltd.
+ * Copyright (C) 2012-2013 Jolla Ltd.
  *
  * Contact: Mohammed Hassan <mohammed.hassan@jollamobile.com>
  *
@@ -49,6 +49,8 @@ public:
 
   GriloDataSource *source() const;
   void setSource(GriloDataSource *source);
+
+  Q_INVOKABLE QObject *get(int index) const;
 
 signals:
   void sourceChanged();
