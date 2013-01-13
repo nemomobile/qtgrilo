@@ -147,7 +147,9 @@ protected:
 				     GrlMedia *media, guint remaining,
 				     gpointer user_data, const GError *error);
 
-  void addMedia(GriloMedia *media);
+  void addMedia(GrlMedia *media);
+  void removeMedia(GrlMedia *media);
+
   void clearMedia();
 
   GrlOperationOptions *operationOptions(GrlSource *src, const OperationType& type);
@@ -167,6 +169,7 @@ protected:
 private:
   QList<GriloMedia *> m_media;
   QList<GriloModel *> m_models;
+  QHash<QString, GriloMedia *> m_hash;
 };
 
 #endif /* GRILO_DATA_SOURCE_H */

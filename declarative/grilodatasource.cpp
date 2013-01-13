@@ -73,18 +73,54 @@ void GriloDataSource::prefill(GriloModel *model) {
   emit model->countChanged();
 }
 
-void GriloDataSource::addMedia(GriloMedia *media) {
+void GriloDataSource::addMedia(GrlMedia *media) {
+  GriloMedia *wrappedMedia = new GriloMedia(media);
   int size = m_media.size();
 
   foreach (GriloModel *model, m_models) {
     model->beginInsertRows(QModelIndex(), size, size);
   }
 
-  m_media << media;
+  m_media << wrappedMedia;
+
+  QString id = wrappedMedia->id();
+  if (!id.isEmpty()) {
+    m_hash.insert(id, wrappedMedia);
+  }
 
   foreach (GriloModel *model, m_models) {
     model->endInsertRows();
     emit model->countChanged();
+  }
+}
+
+void GriloDataSource::removeMedia(GrlMedia *media) {
+  QString id = GriloMedia(media).id();
+
+  if (id.isEmpty() || !m_hash.contains(id)) {
+    // We really cannot do much.
+    return;
+  }
+
+  GriloMedia *wrapper = m_hash[id];
+  int index = m_media.indexOf(wrapper);
+
+  // remove from models:
+  foreach (GriloModel *model, m_models) {
+    model->beginRemoveRows(QModelIndex(), index, index);
+  }
+
+  // remove from hash
+  m_hash.take(id);
+
+  // remove from list
+  m_media.takeAt(index);
+
+  // destroy
+  wrapper->deleteLater();
+
+  foreach (GriloModel *model, m_models) {
+    model->endRemoveRows();
   }
 }
 
@@ -97,6 +133,7 @@ void GriloDataSource::clearMedia() {
 
   qDeleteAll(m_media);
   m_media.clear();
+  m_hash.clear();
 
   foreach (GriloModel *model, m_models) {
     model->endRemoveRows();
@@ -243,7 +280,7 @@ void GriloDataSource::grilo_source_result_cb(GrlSource *source, guint op_id,
   }
 
   if (media) {
-    that->addMedia(new GriloMedia(media));
+    that->addMedia(media);
   }
 
   if (remaining == 0) {
