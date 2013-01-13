@@ -95,3 +95,7 @@ QObject *GriloModel::get(int index) const {
 
   return m_source->media()->at(index);
 }
+
+int GriloModel::count() const {
+  return rowCount();
+}

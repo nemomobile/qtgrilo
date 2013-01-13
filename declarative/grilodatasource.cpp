@@ -69,6 +69,8 @@ void GriloDataSource::prefill(GriloModel *model) {
 
   model->beginInsertRows(QModelIndex(), 0, m_media.size() - 1);
   model->endInsertRows();
+
+  emit model->countChanged();
 }
 
 void GriloDataSource::addMedia(GriloMedia *media) {
@@ -82,6 +84,7 @@ void GriloDataSource::addMedia(GriloMedia *media) {
 
   foreach (GriloModel *model, m_models) {
     model->endInsertRows();
+    emit model->countChanged();
   }
 }
 
@@ -97,6 +100,7 @@ void GriloDataSource::clearMedia() {
 
   foreach (GriloModel *model, m_models) {
     model->endRemoveRows();
+    emit model->countChanged();
   }
 }
 

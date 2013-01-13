@@ -33,6 +33,7 @@ class GriloModel : public QAbstractListModel {
   Q_OBJECT
 
   Q_PROPERTY(GriloDataSource* source READ source WRITE setSource NOTIFY sourceChanged);
+  Q_PROPERTY(int count READ count NOTIFY countChanged);
 
   friend class GriloDataSource;
 
@@ -52,8 +53,11 @@ public:
 
   Q_INVOKABLE QObject *get(int index) const;
 
+  int count() const;
+
 signals:
   void sourceChanged();
+  void countChanged();
 
 private:
   GriloDataSource *m_source;
