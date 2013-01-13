@@ -2,7 +2,7 @@
 
 /*!
  *
- * Copyright (C) 2012 Jolla Ltd.
+ * Copyright (C) 2012-2013 Jolla Ltd.
  *
  * Contact: Mohammed Hassan <mohammed.hassan@jollamobile.com>
  *
@@ -135,6 +135,7 @@ signals:
   void skipChanged();
   void metadataKeysChanged();
   void typeFilterChanged();
+  void finished();
 
 protected:
   enum OperationType {

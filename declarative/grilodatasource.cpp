@@ -247,6 +247,7 @@ void GriloDataSource::grilo_source_result_cb(GrlSource *source, guint op_id,
   }
 
   if (remaining == 0) {
+    emit that->finished();
     that->m_opId = 0;
   }
 }
