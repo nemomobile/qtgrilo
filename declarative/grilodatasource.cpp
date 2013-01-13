@@ -42,8 +42,8 @@ GriloDataSource::GriloDataSource(QDeclarativeItem *parent) :
 }
 
 GriloDataSource::~GriloDataSource() {
-  m_models.clear();
   cancelRefresh();
+  m_models.clear();
 }
 
 const QList<GriloMedia *> *GriloDataSource::media() const {
