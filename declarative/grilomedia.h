@@ -40,7 +40,7 @@ class GriloMedia : public QObject {
   Q_PROPERTY(QString album READ album CONSTANT);
   Q_PROPERTY(QString artist READ artist CONSTANT);
   Q_PROPERTY(int childCount READ childCount CONSTANT);
-
+  Q_PROPERTY(QString mimeType READ mimeType CONSTANT);
 public:
   GriloMedia(GrlMedia *media, QObject *parent = 0);
   ~GriloMedia();
@@ -54,6 +54,7 @@ public:
   QString album() const;
   QString artist() const;
   int childCount() const;
+  QString mimeType() const;
 
   GrlMedia *media();
 
