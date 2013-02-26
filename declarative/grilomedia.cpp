@@ -99,3 +99,8 @@ int GriloMedia::childCount() const
 
   return GRL_METADATA_KEY_CHILDCOUNT_UNKNOWN;
 }
+
+QString GriloMedia::mimeType() const
+{
+  return QString::fromUtf8(grl_media_get_mime(m_media));
+}
