@@ -57,6 +57,7 @@ public:
   QString mimeType() const;
 
   GrlMedia *media();
+  void setMedia(GrlMedia *media);
 
   Q_INVOKABLE QString serialize();
 
