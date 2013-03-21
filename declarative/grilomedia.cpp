@@ -36,6 +36,13 @@ GrlMedia *GriloMedia::media() {
   return m_media;
 }
 
+void GriloMedia::setMedia(GrlMedia *media) {
+  if (m_media != media) {
+    g_object_unref(m_media);
+    m_media = media;
+  }
+}
+
 QString GriloMedia::serialize() {
   QString result;
   gchar *str = grl_media_serialize_extended(m_media, GRL_MEDIA_SERIALIZE_FULL, NULL);

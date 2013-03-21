@@ -27,6 +27,7 @@
 #include <QObject>
 #include <grilo.h>
 #include <QVariant>
+#include <QBasicTimer>
 
 class GriloMedia;
 class GriloModel;
@@ -136,6 +137,7 @@ signals:
   void metadataKeysChanged();
   void typeFilterChanged();
   void finished();
+  void contentUpdated();
 
 protected:
   enum OperationType {
@@ -152,10 +154,14 @@ protected:
 
   void clearMedia();
 
+  void updateContent(GrlSourceChangeType change_type, GPtrArray *changed_media);
+
   GrlOperationOptions *operationOptions(GrlSource *src, const OperationType& type);
   GList *keysAsList();
 
   QVariantList listToVariantList(const GList *keys) const;
+
+  void timerEvent(QTimerEvent *event);
 
   guint m_opId;
 
@@ -163,10 +169,17 @@ protected:
 
   int m_count;
   int m_skip;
+  int m_insertIndex;
   QVariantList m_metadataKeys;
   QVariantList m_typeFilter;
 
+protected slots:
+  virtual void contentChanged(const QString &source, GrlSourceChangeType change_type,
+                              GPtrArray *changed_media);
+
 private:
+  bool m_updateScheduled;
+  QBasicTimer m_updateTimer;
   QList<GriloMedia *> m_media;
   QList<GriloModel *> m_models;
   QHash<QString, GriloMedia *> m_hash;

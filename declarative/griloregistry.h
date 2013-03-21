@@ -60,10 +60,16 @@ public:
 signals:
   void availableSourcesChanged();
   void configurationFileChanged();
+  void contentChanged(const QString &source, GrlSourceChangeType change_type,
+                      GPtrArray *changed_media);
 
 private:
+  static void connect_source(gpointer data, gpointer user_data);
   static void grilo_source_added(GrlRegistry *registry, GrlSource *src, gpointer user_data);
   static void grilo_source_removed(GrlRegistry *registry, GrlSource *src, gpointer user_data);
+  static void grilo_content_changed_cb(GrlSource *source, GPtrArray *changed_media,
+                     GrlSourceChangeType change_type, gboolean location_unknown,
+                     gpointer data);
 
   void loadConfigurationFile();
 

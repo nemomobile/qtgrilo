@@ -134,3 +134,11 @@ void GriloQuery::availableSourcesChanged() {
     m_opId = 0;
   }
 }
+
+void GriloQuery::contentChanged(const QString &source, GrlSourceChangeType change_type,
+                                GPtrArray *changed_media)
+{
+  if (source == m_source) {
+    updateContent(change_type, changed_media);
+  }
+}
