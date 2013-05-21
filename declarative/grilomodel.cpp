@@ -99,3 +99,13 @@ QObject *GriloModel::get(int index) const {
 int GriloModel::count() const {
   return rowCount();
 }
+
+#if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
+QHash<int, QByteArray> GriloModel::roleNames() const {
+  return m_roleNames;
+}
+
+void GriloModel::setRoleNames(const QHash<int, QByteArray> &roles) {
+  m_roleNames = roles;
+}
+#endif

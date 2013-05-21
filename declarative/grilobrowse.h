@@ -38,7 +38,7 @@ class GriloBrowse : public GriloDataSource {
   Q_PROPERTY(QString baseMedia READ baseMedia WRITE setBaseMedia NOTIFY baseMediaChanged);
 
 public:
-  GriloBrowse(QDeclarativeItem *parent = 0);
+  GriloBrowse(QObject *parent = 0);
   ~GriloBrowse();
 
   bool refresh();

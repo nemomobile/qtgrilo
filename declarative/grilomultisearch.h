@@ -34,7 +34,7 @@ class GriloMultiSearch : public GriloDataSource {
   Q_PROPERTY(QString text READ text WRITE setText NOTIFY textChanged);
 
 public:
-  GriloMultiSearch(QDeclarativeItem *parent = 0);
+  GriloMultiSearch(QObject *parent = 0);
   ~GriloMultiSearch();
 
   bool refresh();
