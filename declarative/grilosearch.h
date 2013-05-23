@@ -36,7 +36,7 @@ class GriloSearch : public GriloDataSource {
   Q_PROPERTY(bool available READ isAvailable NOTIFY availabilityChanged);
 
 public:
-  GriloSearch(QDeclarativeItem *parent = 0);
+  GriloSearch(QObject *parent = 0);
   ~GriloSearch();
 
   bool refresh();

@@ -45,6 +45,10 @@ public:
   GriloModel(QObject *parent = 0);
   ~GriloModel();
 
+#if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
+  QHash<int, QByteArray> roleNames() const;
+#endif
+
   int rowCount(const QModelIndex& parent = QModelIndex()) const;
   QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;
 
@@ -61,6 +65,12 @@ signals:
 
 private:
   GriloDataSource *m_source;
+
+#if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
+  void setRoleNames(const QHash<int, QByteArray> &roles);
+  QHash<int, QByteArray> m_roleNames;
+#endif
+
 };
 
 #endif /* GRILO_MODEL_H */

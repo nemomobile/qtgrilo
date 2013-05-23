@@ -30,8 +30,8 @@ static void fill_key_id(gpointer data, gpointer user_data) {
   varList->append(GriloDataSource::MetadataKeys(GRLPOINTER_TO_KEYID(data)));
 }
 
-GriloDataSource::GriloDataSource(QDeclarativeItem *parent) :
-  QDeclarativeItem(parent),
+GriloDataSource::GriloDataSource(QObject *parent) :
+  QObject(parent),
   m_opId(0),
   m_registry(0),
   m_count(0),
