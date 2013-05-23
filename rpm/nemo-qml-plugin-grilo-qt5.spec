@@ -19,7 +19,6 @@ Source100:  nemo-qml-plugin-grilo-qt5.yaml
 BuildRequires:  pkgconfig(Qt5Core)
 BuildRequires:  pkgconfig(Qt5Qml)
 BuildRequires:  pkgconfig(grilo-0.2)
-Provides:   nemo-qml-plugins-grilo-qt5
 
 %description
 %{summary}.

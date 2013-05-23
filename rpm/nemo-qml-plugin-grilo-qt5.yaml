@@ -14,8 +14,6 @@ PkgConfigBR:
     - Qt5Core
     - Qt5Qml
     - grilo-0.2
-Provides:
-    - nemo-qml-plugins-grilo-qt5
 Files:
     - "%{_libdir}/qt5/qml/org/nemomobile/grilo/libqmlgriloplugin.so"
     - "%{_libdir}/qt5/qml/org/nemomobile/grilo/qmldir"
