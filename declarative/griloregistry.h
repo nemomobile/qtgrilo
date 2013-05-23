@@ -24,19 +24,29 @@
 #ifndef GRILO_REGISTRY_H
 #define GRILO_REGISTRY_H
 
-#include <QDeclarativeItem>
+#include <QObject>
 #include <grilo.h>
 
-class GriloRegistry : public QDeclarativeItem {
+#if QT_VERSION_5
+# include <QQmlParserStatus>
+# define QDeclarativeParserStatus QQmlParserStatus
+#else
+# include <QDeclarativeParserStatus>
+#endif
+
+#include <QStringList>
+
+class GriloRegistry : public QObject, public QDeclarativeParserStatus {
   Q_OBJECT
 
   Q_PROPERTY(QStringList availableSources READ availableSources NOTIFY availableSourcesChanged);
   Q_PROPERTY(QString configurationFile READ configurationFile WRITE setConfigurationFile NOTIFY configurationFileChanged);
-
+  Q_INTERFACES(QDeclarativeParserStatus)
 public:
-  GriloRegistry(QDeclarativeItem *parent = 0);
+  GriloRegistry(QObject *parent = 0);
   ~GriloRegistry();
 
+  void classBegin();
   virtual void componentComplete();
   QStringList availableSources();
 

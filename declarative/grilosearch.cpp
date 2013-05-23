@@ -23,7 +23,7 @@
 #include <QDebug>
 #include "griloregistry.h"
 
-GriloSearch::GriloSearch(QDeclarativeItem *parent) :
+GriloSearch::GriloSearch(QObject *parent) :
   GriloDataSource(parent),
   m_available(false) {
 }

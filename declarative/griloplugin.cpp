@@ -27,7 +27,13 @@
 #include "grilomultisearch.h"
 #include "griloquery.h"
 #include "grilomedia.h"
-#include <QtDeclarative>
+
+
+#if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
+# include <qqml.h>
+#else
+# include <qdeclarative.h>
+#endif
 
 GriloPlugin::GriloPlugin(QObject *parent) :
   QDeclarativeExtensionPlugin(parent) {
@@ -50,4 +56,6 @@ void GriloPlugin::registerTypes(const char *uri) {
   qmlRegisterUncreatableType<GriloMedia>(uri, 0, 0, "GriloMedia", "GriloMedia can be obtained from GriloModel");
 }
 
+#if QT_VERSION < QT_VERSION_CHECK(5, 0, 0)
 Q_EXPORT_PLUGIN2(qmlgriloplugin, GriloPlugin);
+#endif

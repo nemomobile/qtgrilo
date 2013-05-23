@@ -24,7 +24,7 @@
 #include "griloregistry.h"
 #include "grilomedia.h"
 
-GriloBrowse::GriloBrowse(QDeclarativeItem *parent) :
+GriloBrowse::GriloBrowse(QObject *parent) :
   GriloDataSource(parent),
   m_media(0),
   m_available(false) {

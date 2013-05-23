@@ -23,11 +23,20 @@
 #ifndef GRILO_PLUGIN_H
 #define GRILO_PLUGIN_H
 
-#include <QDeclarativeExtensionPlugin>
+#include <QtGlobal>
+
+#if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
+# include <QQmlExtensionPlugin>
+# define QDeclarativeExtensionPlugin QQmlExtensionPlugin
+#else
+# include <QDeclarativeExtensionPlugin>
+#endif
 
 class GriloPlugin : public QDeclarativeExtensionPlugin {
   Q_OBJECT
-
+#if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
+    Q_PLUGIN_METADATA(IID "org.nemomobile.grilo")
+#endif
 public:
   GriloPlugin(QObject *parent = 0);
   ~GriloPlugin();

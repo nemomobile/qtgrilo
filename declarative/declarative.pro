@@ -1,6 +1,8 @@
 TEMPLATE = lib
 CONFIG += qt plugin link_pkgconfig
-QT += declarative
+
+equals(QT_MAJOR_VERSION, 4): QT += declarative
+equals(QT_MAJOR_VERSION, 5): QT = core qml
 
 PKGCONFIG = grilo-0.2
 
@@ -17,8 +19,12 @@ SOURCES += griloplugin.cpp grilomodel.cpp griloregistry.cpp grilomedia.cpp grilo
 HEADERS += griloplugin.h grilomodel.h griloregistry.h grilomedia.h grilodatasource.h \
            grilobrowse.h grilosearch.h griloquery.h grilomultisearch.h
 
-target.path = $$[QT_INSTALL_IMPORTS]/$$PLUGIN_IMPORT_PATH
+equals(QT_MAJOR_VERSION, 4): target.path = $$[QT_INSTALL_IMPORTS]/$$PLUGIN_IMPORT_PATH
+equals(QT_MAJOR_VERSION, 5): target.path = $$[QT_INSTALL_QML]/$$PLUGIN_IMPORT_PATH
+
 qml.files = qmldir
-qml.path = $$[QT_INSTALL_IMPORTS]/$$PLUGIN_IMPORT_PATH
+qml.path = $$target.path
 
 INSTALLS += target qml
+
+equals(QT_MAJOR_VERSION, 5): DEFINES += QT_VERSION_5

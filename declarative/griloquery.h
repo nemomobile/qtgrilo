@@ -36,7 +36,7 @@ class GriloQuery : public GriloDataSource {
   Q_PROPERTY(bool available READ isAvailable NOTIFY availabilityChanged);
 
 public:
-  GriloQuery(QDeclarativeItem *parent = 0);
+  GriloQuery(QObject *parent = 0);
   ~GriloQuery();
 
   bool refresh();
