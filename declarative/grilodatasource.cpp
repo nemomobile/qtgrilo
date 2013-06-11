@@ -125,6 +125,10 @@ void GriloDataSource::removeMedia(GrlMedia *media) {
 }
 
 void GriloDataSource::clearMedia() {
+  if (m_media.isEmpty()) {
+    return;
+  }
+
   int size = m_media.size();
 
   foreach (GriloModel *model, m_models) {
