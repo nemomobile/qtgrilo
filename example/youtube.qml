@@ -76,6 +76,6 @@ Item {
                 anchors.top: list.bottom
                 height: parent.height / 3
                 width: parent.width
-                anchors.horizontalCenter: paremt.horizontalCenter
+                anchors.horizontalCenter: parent.horizontalCenter
         }
 }
