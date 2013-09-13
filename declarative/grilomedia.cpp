@@ -91,6 +91,42 @@ QString GriloMedia::artist() const
   return QString();
 }
 
+QString GriloMedia::genre() const
+{
+  if (GRL_IS_MEDIA_AUDIO(m_media)) {
+    return QString::fromUtf8(grl_media_audio_get_genre(GRL_MEDIA_AUDIO(m_media)));
+  }
+
+  return QString();
+}
+
+QString GriloMedia::thumbnail() const
+{
+  if (GRL_IS_MEDIA(m_media)) {
+    return QString::fromUtf8(grl_media_get_thumbnail(GRL_MEDIA(m_media)));
+  }
+
+  return QString();
+}
+
+QString GriloMedia::year() const
+{
+  if (GRL_IS_MEDIA(m_media)) {
+    return QString::number(g_date_time_get_year(grl_media_get_creation_date(GRL_MEDIA(m_media))));
+  }
+
+  return QString();
+}
+
+int GriloMedia::trackNumber() const
+{
+  if (GRL_IS_MEDIA_AUDIO(m_media)) {
+    return grl_media_audio_get_track_number(GRL_MEDIA_AUDIO(m_media));
+  }
+
+  return 0;
+}
+
 int GriloMedia::childCount() const
 {
   if (GRL_IS_MEDIA_BOX(m_media)) {
