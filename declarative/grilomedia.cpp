@@ -100,22 +100,22 @@ QString GriloMedia::genre() const
   return QString();
 }
 
-QString GriloMedia::thumbnail() const
+QUrl GriloMedia::thumbnail() const
 {
   if (GRL_IS_MEDIA(m_media)) {
-    return QString::fromUtf8(grl_media_get_thumbnail(GRL_MEDIA(m_media)));
+    return QUrl(grl_media_get_thumbnail(GRL_MEDIA(m_media)));
   }
 
-  return QString();
+  return QUrl();
 }
 
-QString GriloMedia::year() const
+int GriloMedia::year() const
 {
   if (GRL_IS_MEDIA(m_media)) {
-    return QString::number(g_date_time_get_year(grl_media_get_creation_date(GRL_MEDIA(m_media))));
+    return g_date_time_get_year(grl_media_get_creation_date(GRL_MEDIA(m_media)));
   }
 
-  return QString();
+  return 0;
 }
 
 int GriloMedia::trackNumber() const

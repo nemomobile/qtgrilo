@@ -40,8 +40,8 @@ class GriloMedia : public QObject {
   Q_PROPERTY(QString album READ album CONSTANT);
   Q_PROPERTY(QString artist READ artist CONSTANT);
   Q_PROPERTY(QString genre READ genre CONSTANT);
-  Q_PROPERTY(QString thumbnail READ thumbnail CONSTANT);
-  Q_PROPERTY(QString year READ year CONSTANT);
+  Q_PROPERTY(QUrl thumbnail READ thumbnail CONSTANT);
+  Q_PROPERTY(int year READ year CONSTANT);
   Q_PROPERTY(int trackNumber READ trackNumber CONSTANT);
   Q_PROPERTY(int childCount READ childCount CONSTANT);
   Q_PROPERTY(QString mimeType READ mimeType CONSTANT);
@@ -58,8 +58,8 @@ public:
   QString album() const;
   QString artist() const;
   QString genre() const;
-  QString thumbnail() const;
-  QString year() const;
+  QUrl thumbnail() const;
+  int year() const;
   int trackNumber() const;
   int childCount() const;
   QString mimeType() const;
