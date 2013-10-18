@@ -25,7 +25,8 @@
 #include "grilodatasource.h"
 
 GriloModel::GriloModel(QObject *parent) :
-  QAbstractListModel(parent) {
+  QAbstractListModel(parent),
+  m_source(0) {
 
   QHash<int, QByteArray> roles;
   roles[MediaRole] = "media";
