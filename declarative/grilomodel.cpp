@@ -24,6 +24,8 @@
 #include "grilomedia.h"
 #include "grilodatasource.h"
 
+#include <QQmlEngine>
+
 GriloModel::GriloModel(QObject *parent) :
   QAbstractListModel(parent),
   m_source(0) {
@@ -94,7 +96,10 @@ QObject *GriloModel::get(int index) const {
     return 0;
   }
 
-  return m_source->media()->at(index);
+  QObject *media = m_source->media()->at(index);
+  QQmlEngine::setObjectOwnership(media, QQmlEngine::CppOwnership);
+
+  return media;
 }
 
 int GriloModel::count() const {
