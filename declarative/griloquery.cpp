@@ -58,6 +58,9 @@ bool GriloQuery::refresh() {
   m_opId = grl_source_query(src, m_query.toUtf8().constData(),
 			    keys, options, grilo_source_result_cb, this);
 
+  // start listening changes for this query too.
+  g_signal_connect(src, "content-changed", G_CALLBACK(grilo_content_changed_cb), NULL);
+
   g_object_unref(options);
   g_list_free(keys);
 
