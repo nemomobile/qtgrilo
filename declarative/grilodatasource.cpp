@@ -207,6 +207,17 @@ void GriloDataSource::setTypeFilter(const QVariantList& filter) {
   }
 }
 
+bool GriloDataSource::removeMedia(const QUrl &url)
+{
+    foreach(GriloMedia *media, m_media) {
+        if (media->url() == url) {
+            removeMedia(media->media());
+            return true;
+        }
+    }
+    return false;
+}
+
 GrlOperationOptions *GriloDataSource::operationOptions(GrlSource *src, const OperationType& type) {
   GrlCaps *caps = NULL;
 
@@ -291,6 +302,23 @@ void GriloDataSource::grilo_source_result_cb(GrlSource *source, guint op_id,
     emit that->finished();
     that->m_opId = 0;
   }
+}
+
+void GriloDataSource::grilo_content_changed_cb(GrlSource          *source,
+                              GPtrArray          *changed_medias,
+                              GrlSourceChangeType change_type,
+                              gboolean            location_unknown,
+                              gpointer            user_data)
+{
+    Q_UNUSED(source);
+    Q_UNUSED(changed_medias);
+    Q_UNUSED(change_type);
+    Q_UNUSED(location_unknown);
+    Q_UNUSED(user_data);
+    // TODO: For some reason this callback is not called when content is added
+    // or removed. If and when this gets called, it should automatically update
+    // the content either remove or add new items.
+    qDebug() << Q_FUNC_INFO << "NOT IMPLEMENTED!";
 }
 
 QVariantList GriloDataSource::listToVariantList(const GList *keys) const {

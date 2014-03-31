@@ -124,6 +124,7 @@ public:
   void setTypeFilter(const QVariantList& filter);
 
   Q_INVOKABLE virtual bool refresh() = 0;
+  Q_INVOKABLE bool removeMedia(const QUrl &url);
 
 public slots:
   void cancelRefresh();
@@ -147,6 +148,11 @@ protected:
 				     GrlMedia *media, guint remaining,
 				     gpointer user_data, const GError *error);
 
+  static void grilo_content_changed_cb(GrlSource          *source,
+                                       GPtrArray          *changed_medias,
+                                       GrlSourceChangeType change_type,
+                                       gboolean            location_unknown,
+                                       gpointer            user_data);
   void addMedia(GrlMedia *media);
   void removeMedia(GrlMedia *media);
 
