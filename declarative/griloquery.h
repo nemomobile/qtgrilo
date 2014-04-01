@@ -60,6 +60,7 @@ signals:
   void availabilityChanged();
 
 private:
+  void contentChanged(const QString &source, GrlSourceChangeType change_type, GPtrArray *changed_media);
   void availableSourcesChanged();
 
   QString m_source;

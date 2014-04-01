@@ -31,6 +31,13 @@ GriloRegistry::GriloRegistry(QObject *parent) :
 }
 
 GriloRegistry::~GriloRegistry() {
+  foreach (const QString &source, m_sources) {
+    GrlSource *src = lookupSource(source);
+    if (src) {
+      g_signal_handlers_disconnect_by_data(src, this);
+    }
+  }
+  g_signal_handlers_disconnect_by_data(m_registry, this);
   m_registry = 0;
 }
 
@@ -42,6 +49,10 @@ void GriloRegistry::componentComplete() {
 
   g_signal_connect(m_registry, "source-added", G_CALLBACK(grilo_source_added), this);
   g_signal_connect(m_registry, "source-removed", G_CALLBACK(grilo_source_removed), this);
+
+  GList *sources = grl_registry_get_sources(m_registry, FALSE);
+  g_list_foreach(sources, connect_source, this);
+  g_list_free(sources);
 
   loadConfigurationFile();
 }
@@ -77,6 +88,12 @@ void GriloRegistry::loadConfigurationFile() {
   }
 }
 
+void GriloRegistry::connect_source(gpointer data, gpointer user_data)
+{
+  GriloRegistry *reg = static_cast<GriloRegistry *>(user_data);
+  grilo_source_added(reg->m_registry, static_cast<GrlSource *>(data), user_data);
+}
+
 void GriloRegistry::grilo_source_added(GrlRegistry *registry, GrlSource *src,
 				       gpointer user_data) {
 
@@ -88,6 +105,9 @@ void GriloRegistry::grilo_source_added(GrlRegistry *registry, GrlSource *src,
 
   if (reg->m_sources.indexOf(id) == -1) {
     reg->m_sources << id;
+    g_signal_connect(src, "content-changed", G_CALLBACK(grilo_content_changed_cb), reg);
+    grl_source_notify_change_start(src, 0);
+
     emit reg->availableSourcesChanged();
   }
 }
@@ -103,9 +123,19 @@ void GriloRegistry::grilo_source_removed(GrlRegistry *registry, GrlSource *src,
 
   if (int index = reg->m_sources.indexOf(id) != -1) {
     reg->m_sources.removeAt(index);
-
+    g_signal_handlers_disconnect_by_data(src, reg);
     emit reg->availableSourcesChanged();
   }
+}
+
+void GriloRegistry::grilo_content_changed_cb(GrlSource *source, GPtrArray *changed_media,
+                        GrlSourceChangeType change_type, gboolean location_unknown,
+                        gpointer user_data) {
+  Q_UNUSED(location_unknown);
+  GriloRegistry *reg = static_cast<GriloRegistry *>(user_data);
+
+  const char *id = grl_source_get_id(source);
+  emit reg->contentChanged(id, change_type, changed_media);
 }
 
 GrlSource *GriloRegistry::lookupSource(const QString& id) {
