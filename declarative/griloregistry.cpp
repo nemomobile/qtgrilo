@@ -139,9 +139,10 @@ void GriloRegistry::grilo_content_changed_cb(GrlSource *source, GPtrArray *chang
 }
 
 GrlSource *GriloRegistry::lookupSource(const QString& id) {
-  if (m_registry) {
-    return grl_registry_lookup_source(m_registry, id.toUtf8().constData());
+  if (!m_registry) {
+    qCritical() << "No registry object!!!";
+    return 0;
   }
 
-  return 0;
+  return grl_registry_lookup_source(m_registry, id.toUtf8().constData());
 }
