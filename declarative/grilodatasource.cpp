@@ -316,6 +316,9 @@ void GriloDataSource::grilo_source_result_cb(GrlSource *source, guint op_id,
     if (error->domain != GRL_CORE_ERROR || error->code != GRL_CORE_ERROR_OPERATION_CANCELLED) {
       // TODO: error reporting?
       qCritical() << "Operation failed" << error->message;
+    } else {
+      // Cancelled operation notification. Nothing else to be done.
+      return;
     }
   }
 
