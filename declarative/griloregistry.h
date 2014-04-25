@@ -52,6 +52,8 @@ public:
 
   Q_INVOKABLE bool loadAll();
 
+  Q_INVOKABLE bool loadPluginById(const QString& pluginId);
+
   GrlSource *lookupSource(const QString& id);
 
   QString configurationFile() const;
