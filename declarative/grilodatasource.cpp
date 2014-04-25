@@ -164,6 +164,7 @@ void GriloDataSource::removeMedia(GrlMedia *media) {
 
   foreach (GriloModel *model, m_models) {
     model->endRemoveRows();
+    emit model->countChanged();
   }
 }
 
