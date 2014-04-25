@@ -325,7 +325,8 @@ void GriloDataSource::grilo_source_result_cb(GrlSource *source, guint op_id,
   GriloDataSource *that = static_cast<GriloDataSource *>(user_data);
 
   if (that->m_opId != op_id) {
-    qWarning() << "Got results belonging to an unknown browse id";
+    qWarning() << "Got Op Id result" << op_id
+               << "but Op Id" << that->m_opId << "was expected.";
 
     if (media) {
       g_object_unref(media);
