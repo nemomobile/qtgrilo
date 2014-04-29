@@ -164,6 +164,7 @@ void GriloDataSource::removeMedia(GrlMedia *media) {
 
   foreach (GriloModel *model, m_models) {
     model->endRemoveRows();
+    emit model->countChanged();
   }
 }
 
@@ -315,13 +316,17 @@ void GriloDataSource::grilo_source_result_cb(GrlSource *source, guint op_id,
     if (error->domain != GRL_CORE_ERROR || error->code != GRL_CORE_ERROR_OPERATION_CANCELLED) {
       // TODO: error reporting?
       qCritical() << "Operation failed" << error->message;
+    } else {
+      // Cancelled operation notification. Nothing else to be done.
+      return;
     }
   }
 
   GriloDataSource *that = static_cast<GriloDataSource *>(user_data);
 
   if (that->m_opId != op_id) {
-    qWarning() << "Got results belonging to an unknown browse id";
+    qWarning() << "Got Op Id result" << op_id
+               << "but Op Id" << that->m_opId << "was expected.";
 
     if (media) {
       g_object_unref(media);

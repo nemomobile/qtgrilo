@@ -66,6 +66,23 @@ bool GriloRegistry::loadAll() {
   return grl_registry_load_all_plugins(m_registry, NULL) == TRUE;
 }
 
+bool GriloRegistry::loadPluginById(const QString& pluginId) {
+  if (!m_registry) {
+    qCritical() << "No registry object!!!";
+    return false;
+  }
+
+  QByteArray id = pluginId.toLocal8Bit();
+
+  // Let's try to get the plugin first so we avoid a nasty warning ...
+  if (grl_registry_lookup_plugin(m_registry, id.constData())) {
+    return true;
+  }
+
+  // TODO: error reporting
+  return grl_registry_load_plugin_by_id(m_registry, id.constData(), NULL) == TRUE;
+}
+
 QString GriloRegistry::configurationFile() const {
   return m_configurationFile;
 }
@@ -139,9 +156,10 @@ void GriloRegistry::grilo_content_changed_cb(GrlSource *source, GPtrArray *chang
 }
 
 GrlSource *GriloRegistry::lookupSource(const QString& id) {
-  if (m_registry) {
-    return grl_registry_lookup_source(m_registry, id.toUtf8().constData());
+  if (!m_registry) {
+    qCritical() << "No registry object!!!";
+    return 0;
   }
 
-  return 0;
+  return grl_registry_lookup_source(m_registry, id.toUtf8().constData());
 }
