@@ -34,6 +34,11 @@ GriloModel::GriloModel(QObject *parent) :
   roles[MediaRole] = "media";
 
   setRoleNames(roles);
+
+  QObject::connect(this, SIGNAL(rowsInserted(const QModelIndex&, int, int)),
+                   this, SIGNAL(countChanged()));
+  QObject::connect(this, SIGNAL(rowsRemoved(const QModelIndex&, int, int)),
+                   this, SIGNAL(countChanged()));
 }
 
 GriloModel::~GriloModel() {
