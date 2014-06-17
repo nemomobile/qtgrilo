@@ -21,6 +21,12 @@
 
 #include "grilomedia.h"
 #include <QDebug>
+#if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
+# include <QQmlInfo>
+#else
+# include <QDeclarativeInfo>
+#endif
+
 
 GriloMedia::GriloMedia(GrlMedia *media, QObject *parent) :
   QObject(parent), m_media(media) {
@@ -41,6 +47,23 @@ void GriloMedia::setMedia(GrlMedia *media) {
     g_object_unref(m_media);
     m_media = media;
   }
+}
+
+QVariant GriloMedia::get(const QString& keyId) const {
+  // There is a GriloRegistry Qt object, but it is not smart to add a
+  // dependency to it here since GrlRegistry is, actually, a
+  // singleton.
+  GrlKeyID actualKey = grl_registry_lookup_metadata_key(grl_registry_get_default(),
+                                                        keyId.toUtf8().constData());
+
+  if (GRL_METADATA_KEY_INVALID == actualKey) {
+    qmlInfo(this) << "Grilo key doesn't exist in the register.";
+    return QVariant();
+  }
+
+  const GValue *gValue = grl_data_get(GRL_DATA(m_media), actualKey);
+
+  return convertValue(gValue);
 }
 
 QString GriloMedia::serialize() {
@@ -147,3 +170,59 @@ QString GriloMedia::mimeType() const
 {
   return QString::fromUtf8(grl_media_get_mime(m_media));
 }
+
+QVariant GriloMedia::convertValue(const GValue *value) const
+{
+  if (!value) {
+    return QVariant();
+  }
+
+  switch (G_VALUE_TYPE(value)) {
+  case G_TYPE_BOOLEAN:
+    return QVariant::fromValue(static_cast<bool>(g_value_get_boolean(value)));
+  case G_TYPE_BOXED: {
+    GByteArray *array;
+
+    array = static_cast<GByteArray *>(g_value_get_boxed(value));
+    const char *arrayData = reinterpret_cast<char *>(array->data);
+    return QVariant::fromValue(QByteArray::fromRawData(arrayData, array->len));
+  }
+  case G_TYPE_DOUBLE:
+    return QVariant::fromValue(g_value_get_double(value));
+  case G_TYPE_ENUM:
+    return QVariant::fromValue(g_value_get_enum(value));
+  case G_TYPE_FLAGS:
+    return QVariant::fromValue(g_value_get_flags(value));
+  case G_TYPE_FLOAT:
+    return QVariant::fromValue(g_value_get_float(value));
+  case G_TYPE_INT:
+    return QVariant::fromValue(g_value_get_int(value));
+  case G_TYPE_INT64:
+    return QVariant::fromValue(g_value_get_int64(value));
+  case G_TYPE_LONG:
+    return QVariant::fromValue(g_value_get_long(value));
+  case G_TYPE_CHAR:
+    return QVariant::fromValue(QChar(g_value_get_schar(value)));
+  case G_TYPE_STRING:
+    return QVariant::fromValue(QString::fromUtf8(g_value_get_string(value)));
+  case G_TYPE_UCHAR:
+    return QVariant::fromValue(QChar(g_value_get_uchar(value)));
+  case G_TYPE_UINT:
+    return QVariant::fromValue(g_value_get_uint(value));
+  case G_TYPE_UINT64:
+    return QVariant::fromValue(g_value_get_uint64(value));
+  case G_TYPE_ULONG:
+    return QVariant::fromValue(g_value_get_ulong(value));
+  }
+
+  // We cannot use G_TYPE_GTYPE as a checking value so we check,
+  // finally, here.
+  if (G_UNLIKELY(G_VALUE_HOLDS_GTYPE(value))) {
+    return QVariant::fromValue(g_value_get_gtype(value));
+  }
+
+  qmlInfo(this) << "GValue not converted to QVariant.";
+
+  return QVariant();
+}
+
