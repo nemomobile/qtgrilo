@@ -24,6 +24,8 @@
 #ifndef GRILO_DATA_SOURCE_H
 #define GRILO_DATA_SOURCE_H
 
+#include <GriloQt>
+
 #include <QObject>
 #include <grilo.h>
 #include <QVariant>
@@ -33,7 +35,7 @@ class GriloMedia;
 class GriloModel;
 class GriloRegistry;
 
-class GriloDataSource : public QObject {
+class GRILO_QT_EXPORT GriloDataSource : public QObject {
   Q_OBJECT
 
   Q_PROPERTY(GriloRegistry* registry READ registry WRITE setRegistry NOTIFY registryChanged);

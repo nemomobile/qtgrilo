@@ -24,9 +24,10 @@
 #ifndef GRILO_SEARCH_H
 #define GRILO_SEARCH_H
 
-#include "grilodatasource.h"
+#include <GriloQt>
+#include <GriloDataSource>
 
-class GriloSearch : public GriloDataSource {
+class GRILO_QT_EXPORT GriloSearch : public GriloDataSource {
   Q_OBJECT
 
   Q_PROPERTY(QString source READ source WRITE setSource NOTIFY sourceChanged);
