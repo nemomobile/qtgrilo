@@ -24,10 +24,12 @@
 #ifndef GRILO_MULTI_SEARCH_H
 #define GRILO_MULTI_SEARCH_H
 
-#include "grilodatasource.h"
+#include <GriloQt>
+#include <GriloDataSource>
+
 #include <QStringList>
 
-class GriloMultiSearch : public GriloDataSource {
+class GRILO_QT_EXPORT GriloMultiSearch : public GriloDataSource {
   Q_OBJECT
 
   Q_PROPERTY(QStringList sources READ sources WRITE setSources NOTIFY sourcesChanged);

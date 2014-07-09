@@ -1,7 +1,7 @@
-QtDeclarative bindings for Grilo.
-=================================
+Qt and QML bindings for Grilo.
+==============================
 
-Qt4 and Qt5 declarative bindings for Grilo.
+Qt4, Qt5 and QML declarative bindings for Grilo.
 Grilo is a framework for discovering and browsing media.
 
 Requirements:

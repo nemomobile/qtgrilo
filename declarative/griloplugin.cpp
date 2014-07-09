@@ -19,14 +19,16 @@
  */
 
 #include "griloplugin.h"
-#include "griloregistry.h"
-#include "grilomodel.h"
-#include "grilodatasource.h"
-#include "grilobrowse.h"
-#include "grilosearch.h"
-#include "grilomultisearch.h"
-#include "griloquery.h"
-#include "grilomedia.h"
+
+#include <GriloQt>
+#include <GriloDataSource>
+#include <GriloBrowse>
+#include <GriloMedia>
+#include <GriloModel>
+#include <GriloMultiSearch>
+#include <GriloQuery>
+#include <GriloRegistry>
+#include <GriloSearch>
 
 
 #if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
