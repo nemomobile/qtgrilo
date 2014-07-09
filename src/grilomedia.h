@@ -24,12 +24,14 @@
 #ifndef GRILO_MEDIA_H
 #define GRILO_MEDIA_H
 
+#include <GriloQt>
+
 #include <QObject>
 #include <grilo.h>
 #include <QUrl>
 #include <QVariant>
 
-class GriloMedia : public QObject {
+class GRILO_QT_EXPORT GriloMedia : public QObject {
   Q_OBJECT
 
   Q_PROPERTY(QString id READ id CONSTANT);

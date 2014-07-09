@@ -24,12 +24,14 @@
 #ifndef GRILO_MODEL_H
 #define GRILO_MODEL_H
 
+#include <GriloQt>
+
 #include <QAbstractListModel>
 
 class GriloMedia;
 class GriloDataSource;
 
-class GriloModel : public QAbstractListModel {
+class GRILO_QT_EXPORT GriloModel : public QAbstractListModel {
   Q_OBJECT
 
   Q_PROPERTY(GriloDataSource* source READ source WRITE setSource NOTIFY sourceChanged);

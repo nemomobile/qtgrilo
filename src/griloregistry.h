@@ -24,6 +24,8 @@
 #ifndef GRILO_REGISTRY_H
 #define GRILO_REGISTRY_H
 
+#include <GriloQt>
+
 #include <QObject>
 #include <grilo.h>
 
@@ -36,7 +38,7 @@
 
 #include <QStringList>
 
-class GriloRegistry : public QObject, public QDeclarativeParserStatus {
+class GRILO_QT_EXPORT GriloRegistry : public QObject, public QDeclarativeParserStatus {
   Q_OBJECT
 
   Q_PROPERTY(QStringList availableSources READ availableSources NOTIFY availableSourcesChanged);
