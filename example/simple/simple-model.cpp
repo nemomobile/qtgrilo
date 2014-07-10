@@ -96,6 +96,5 @@ void SimpleModel::onItemClicked(const QModelIndex& index)
 
     if (media->isContainer()) {
         m_grlBrowse->setBaseMedia(media->serialize());
-        qWarning() << media->serialize();
     }
 }
