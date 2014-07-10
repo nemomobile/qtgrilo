@@ -22,30 +22,32 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include "simple-model.h"
+#ifndef SIMPLE_MODEL_H
+#define SIMPLE_MODEL_H
 
-#include <GriloDataSource>
+#include <GriloModel>
 
-#include <QtGui>
-#include <QApplication>
-#include <QObject>
-#include <QListView>
+#include <QModelIndex>
 
-int main(int argc, char *argv[])
+class GriloRegistry;
+class GriloBrowse;
+
+class SimpleModel : public GriloModel
 {
-    QApplication app(argc, argv);
+    Q_OBJECT
 
-    SimpleModel simpleModel;
+public:
+    SimpleModel(QObject *parent = 0);
+    ~SimpleModel();
 
-    simpleModel.source()->refresh();
+    QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;
 
-    QListView view;
-    view.setModel(&simpleModel);
-    view.setWindowTitle("Simple Grilo Model");
+public slots:
+    void onItemClicked(const QModelIndex& index);
 
-    QObject::connect(&view, SIGNAL(clicked(const QModelIndex&)), &simpleModel, SLOT(onItemClicked(const QModelIndex&)));
+private:
+    GriloRegistry *m_grlRegistry;
+    GriloBrowse *m_grlBrowse;
+};
 
-    view.show();
-
-    return app.exec();
-}
+#endif /* SIMPLE_MODEL_H */
