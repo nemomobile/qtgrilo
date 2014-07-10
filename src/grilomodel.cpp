@@ -1,8 +1,10 @@
 /*!
  *
- * Copyright (C) 2012-2013 Jolla Ltd.
+ * Copyright (C) 2012-2014 Jolla Ltd.
  *
  * Contact: Mohammed Hassan <mohammed.hassan@jollamobile.com>
+ * Authors: Mohammed Hassan <mohammed.hassan@jollamobile.com>,
+ *          Andres Gomez <agomez@igalia.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -23,8 +25,6 @@
 #include <QDebug>
 #include "grilomedia.h"
 #include "grilodatasource.h"
-
-#include <QQmlEngine>
 
 GriloModel::GriloModel(QObject *parent) :
   QAbstractListModel(parent),
@@ -55,7 +55,7 @@ QVariant GriloModel::data(const QModelIndex& index, int role) const {
 
   switch (role) {
   case MediaRole:
-    return QVariant::fromValue(get(index.row()));
+    return QVariant::fromValue(m_source->media()->at(index.row()));
   }
 
   return QVariant();
@@ -89,17 +89,6 @@ void GriloModel::setSource(GriloDataSource *source) {
   if (m_source) {
     m_source->prefill(this);
   }
-}
-
-QObject *GriloModel::get(int index) const {
-  if (index < 0 || index >= rowCount()) {
-    return 0;
-  }
-
-  QObject *media = m_source->media()->at(index);
-  QQmlEngine::setObjectOwnership(media, QQmlEngine::CppOwnership);
-
-  return media;
 }
 
 int GriloModel::count() const {

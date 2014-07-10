@@ -3,8 +3,7 @@ include(../common.pri)
 TEMPLATE = lib
 CONFIG += qt link_pkgconfig
 
-equals(QT_MAJOR_VERSION, 4): QT += declarative
-equals(QT_MAJOR_VERSION, 5): QT = core qml
+equals(QT_MAJOR_VERSION, 5): QT = core
 
 PKGCONFIG = grilo-0.2
 TARGET = $${GRILOQTLIB}
@@ -71,5 +70,5 @@ QMAKE_PKGCONFIG_LIBDIR = $$target.path
 QMAKE_PKGCONFIG_INCDIR = $$headers.path
 QMAKE_PKGCONFIG_DESTDIR = pkgconfig
 
-equals(QT_MAJOR_VERSION, 4): QMAKE_PKGCONFIG_REQUIRES += Qt4Declarative
-equals(QT_MAJOR_VERSION, 5): QMAKE_PKGCONFIG_REQUIRES += Qt5Core Qt5Qml
+equals(QT_MAJOR_VERSION, 4): QMAKE_PKGCONFIG_REQUIRES += Qt4Core
+equals(QT_MAJOR_VERSION, 5): QMAKE_PKGCONFIG_REQUIRES += Qt5Core

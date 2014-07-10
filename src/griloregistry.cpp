@@ -26,8 +26,7 @@
 
 
 GriloRegistry::GriloRegistry(QObject *parent) :
-  QObject(parent),
-  m_registry(0) {
+  QObject(parent) {
 
   grl_init(0, 0);
 
@@ -87,15 +86,14 @@ void GriloRegistry::setConfigurationFile(const QString& file) {
     m_configurationFile = file;
     emit configurationFileChanged();
 
-    if (m_registry) {
-      loadConfigurationFile();
-    }
+    loadConfigurationFile();
   }
 }
 
 void GriloRegistry::loadConfigurationFile() {
-  if (!m_configurationFile.isEmpty() && m_registry) {
-    grl_registry_add_config_from_file(m_registry, m_configurationFile.toLocal8Bit().constData(),
+  if (!m_configurationFile.isEmpty()) {
+    grl_registry_add_config_from_file(m_registry,
+				      m_configurationFile.toLocal8Bit().constData(),
 				      NULL);
   }
 }

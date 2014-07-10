@@ -1,10 +1,10 @@
-// -*- c++ -*-
-
 /*!
  *
- * Copyright (C) 2012-2014 Jolla Ltd.
+ * Copyright (C) 2014 Jolla Ltd.
  *
  * Contact: Mohammed Hassan <mohammed.hassan@jollamobile.com>
+ * Authors: Mohammed Hassan <mohammed.hassan@jollamobile.com>,
+ *          Andres Gomez <agomez@igalia.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -21,29 +21,33 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GRILO_PLUGIN_H
-#define GRILO_PLUGIN_H
+#include "declarativegrilomodel.h"
 
-#include <QtGlobal>
+#include <GriloMedia>
 
-#if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
-# include <QQmlExtensionPlugin>
-# define QDeclarativeExtensionPlugin QQmlExtensionPlugin
+#if QT_VERSION_5
+# include <QQmlEngine>
+# define QDeclarativeEngine QQmlEngine
 #else
-# include <QDeclarativeExtensionPlugin>
+# include <QDeclarativeEngine>
 #endif
 
-class GriloPlugin : public QDeclarativeExtensionPlugin {
-  Q_OBJECT
-#if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
-    Q_PLUGIN_METADATA(IID "org.nemomobile.grilo")
-#endif
-public:
-  GriloPlugin(QObject *parent = 0);
-  ~GriloPlugin();
+DeclarativeGriloModel::DeclarativeGriloModel(QObject *parent) :
+  GriloModel(parent) {
 
-  virtual void registerTypes(const char *uri);
-};
+}
 
+DeclarativeGriloModel::~DeclarativeGriloModel() {
 
-#endif /* GRILO_PLUGIN_H */
+}
+
+QObject *DeclarativeGriloModel::get(int rowIndex) const {
+  QVariant mediaVariant = data(index(rowIndex), GriloModel::MediaRole);
+
+  GriloMedia *media = mediaVariant.value<GriloMedia*>();
+  if (media) {
+    QDeclarativeEngine::setObjectOwnership(media, QDeclarativeEngine::CppOwnership);
+  }
+
+  return media;
+}

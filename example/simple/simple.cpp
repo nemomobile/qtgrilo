@@ -2,7 +2,7 @@
 
 /*!
  *
- * Copyright (C) 2012 Jolla Ltd.
+ * Copyright (C) 2014 Jolla Ltd.
  *
  * Contact: Mohammed Hassan <mohammed.hassan@jollamobile.com>
  * Author: Andres Gomez <agomez@igalia.com>

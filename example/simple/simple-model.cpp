@@ -2,7 +2,7 @@
 
 /*!
  *
- * Copyright (C) 2012 Jolla Ltd.
+ * Copyright (C) 2014 Jolla Ltd.
  *
  * Contact: Mohammed Hassan <mohammed.hassan@jollamobile.com>
  * Author: Andres Gomez <agomez@igalia.com>
@@ -69,18 +69,22 @@ SimpleModel::~SimpleModel()
 
 QVariant SimpleModel::data(const QModelIndex& index, int role) const
 {
-    if (index.row() < 0 || index.row() >= rowCount()) {
-        return QVariant();
-    }
+    QVariant mediaVariant = GriloModel::data(index, GriloModel::MediaRole);
 
     switch (role) {
     case GriloModel::MediaRole:
-        return QVariant::fromValue(get(index.row()));
+        return mediaVariant;
     case Qt::DisplayRole:
-        return qobject_cast<GriloMedia*>(get(index.row()))->title();
+        {
+            GriloMedia *media = mediaVariant.value<GriloMedia*>();
+            if (!media) {
+                return QVariant();
+            }
+            return media->title();
+        }
+    default:
+        return QVariant();
     }
-
-    return QVariant();
 }
 
 void SimpleModel::onItemClicked(const QModelIndex& index)

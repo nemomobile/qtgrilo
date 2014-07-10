@@ -4,8 +4,7 @@ TEMPLATE = app
 TARGET = simple
 CONFIG += qt link_pkgconfig
 
-equals(QT_MAJOR_VERSION, 4): QT += declarative
-equals(QT_MAJOR_VERSION, 5): QT += widgets qml
+equals(QT_MAJOR_VERSION, 5): QT += widgets
 
 DEPENDPATH += ../../src
 INCLUDEPATH += ../../src
