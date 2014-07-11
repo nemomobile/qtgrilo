@@ -36,8 +36,6 @@ SimpleModel::SimpleModel(QObject *parent) :
     m_grlBrowse(0)
 {
     m_grlRegistry = new GriloRegistry();
-    // Not nice that we have to call this ...
-    m_grlRegistry->componentComplete();
     m_grlRegistry->loadPluginById("grl-filesystem");
 
     m_grlBrowse = new GriloBrowse();
