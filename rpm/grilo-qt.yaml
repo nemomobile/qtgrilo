@@ -1,5 +1,5 @@
 Name: grilo-qt
-Summary: Framework for discovering and browsing media
+Summary: Framework for discovering and browsing media, Qt bindings
 URL: https://github.com/nemomobile/qtgrilo
 Group: Development/Libraries
 Description: "%{summary}."
