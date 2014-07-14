@@ -1,6 +1,7 @@
 /*!
  *
  * Copyright (C) 2012 Jolla Ltd.
+ *
  * Contact: Mohammed Hassan <mohammed.hassan@jollamobile.com>
  *
  * This library is free software; you can redistribute it and/or
@@ -19,14 +20,16 @@
  */
 
 #include "griloplugin.h"
-#include "griloregistry.h"
-#include "grilomodel.h"
-#include "grilodatasource.h"
-#include "grilobrowse.h"
-#include "grilosearch.h"
-#include "grilomultisearch.h"
-#include "griloquery.h"
-#include "grilomedia.h"
+#include "declarativegrilomodel.h"
+
+#include <GriloQt>
+#include <GriloDataSource>
+#include <GriloBrowse>
+#include <GriloMedia>
+#include <GriloMultiSearch>
+#include <GriloQuery>
+#include <GriloRegistry>
+#include <GriloSearch>
 
 
 #if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
@@ -46,7 +49,7 @@ GriloPlugin::~GriloPlugin() {
 
 void GriloPlugin::registerTypes(const char *uri) {
   qmlRegisterType<GriloRegistry>(uri, 0, 1, "GriloRegistry");
-  qmlRegisterType<GriloModel>(uri, 0, 1, "GriloModel");
+  qmlRegisterType<DeclarativeGriloModel>(uri, 0, 1, "GriloModel");
   qmlRegisterType<GriloBrowse>(uri, 0, 1, "GriloBrowse");
   qmlRegisterType<GriloSearch>(uri, 0, 1, "GriloSearch");
   qmlRegisterType<GriloQuery>(uri, 0, 1, "GriloQuery");

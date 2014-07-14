@@ -2,9 +2,10 @@
 
 /*!
  *
- * Copyright (C) 2012-2014 Jolla Ltd.
+ * Copyright (C) 2014 Jolla Ltd.
  *
  * Contact: Mohammed Hassan <mohammed.hassan@jollamobile.com>
+ * Author: Andres Gomez <agomez@igalia.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -21,29 +22,13 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GRILO_PLUGIN_H
-#define GRILO_PLUGIN_H
+#ifndef GRILO_QT_H
+#define GRILO_QT_H
 
-#include <QtGlobal>
-
-#if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
-# include <QQmlExtensionPlugin>
-# define QDeclarativeExtensionPlugin QQmlExtensionPlugin
+#if defined(GRILO_QT_LIBRARY)
+#  define GRILO_QT_EXPORT Q_DECL_EXPORT
 #else
-# include <QDeclarativeExtensionPlugin>
+#  define GRILO_QT_EXPORT Q_DECL_IMPORT
 #endif
 
-class GriloPlugin : public QDeclarativeExtensionPlugin {
-  Q_OBJECT
-#if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
-    Q_PLUGIN_METADATA(IID "org.nemomobile.grilo")
-#endif
-public:
-  GriloPlugin(QObject *parent = 0);
-  ~GriloPlugin();
-
-  virtual void registerTypes(const char *uri);
-};
-
-
-#endif /* GRILO_PLUGIN_H */
+#endif /* GRILO_QT_H */

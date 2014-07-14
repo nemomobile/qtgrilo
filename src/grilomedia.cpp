@@ -1,6 +1,6 @@
 /*!
  *
- * Copyright (C) 2012 Jolla Ltd.
+ * Copyright (C) 2012-2014 Jolla Ltd.
  *
  * Contact: Mohammed Hassan <mohammed.hassan@jollamobile.com>
  *
@@ -20,13 +20,8 @@
  */
 
 #include "grilomedia.h"
-#include <QDebug>
-#if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
-# include <QQmlInfo>
-#else
-# include <QDeclarativeInfo>
-#endif
 
+#include <QDebug>
 
 GriloMedia::GriloMedia(GrlMedia *media, QObject *parent) :
   QObject(parent), m_media(media) {
@@ -57,7 +52,7 @@ QVariant GriloMedia::get(const QString& keyId) const {
                                                         keyId.toUtf8().constData());
 
   if (GRL_METADATA_KEY_INVALID == actualKey) {
-    qmlInfo(this) << "Grilo key doesn't exist in the register.";
+    qWarning() << "Grilo key doesn't exist in the registry.";
     return QVariant();
   }
 
@@ -221,7 +216,7 @@ QVariant GriloMedia::convertValue(const GValue *value) const
     return QVariant::fromValue(g_value_get_gtype(value));
   }
 
-  qmlInfo(this) << "GValue not converted to QVariant.";
+  qWarning() << "GValue not converted to QVariant.";
 
   return QVariant();
 }

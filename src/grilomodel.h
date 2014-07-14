@@ -2,9 +2,11 @@
 
 /*!
  *
- * Copyright (C) 2012-2013 Jolla Ltd.
+ * Copyright (C) 2012-2014 Jolla Ltd.
  *
  * Contact: Mohammed Hassan <mohammed.hassan@jollamobile.com>
+ * Authors: Mohammed Hassan <mohammed.hassan@jollamobile.com>,
+ *          Andres Gomez <agomez@igalia.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -24,12 +26,14 @@
 #ifndef GRILO_MODEL_H
 #define GRILO_MODEL_H
 
+#include <GriloQt>
+
 #include <QAbstractListModel>
 
 class GriloMedia;
 class GriloDataSource;
 
-class GriloModel : public QAbstractListModel {
+class GRILO_QT_EXPORT GriloModel : public QAbstractListModel {
   Q_OBJECT
 
   Q_PROPERTY(GriloDataSource* source READ source WRITE setSource NOTIFY sourceChanged);
@@ -43,7 +47,7 @@ public:
   };
 
   GriloModel(QObject *parent = 0);
-  ~GriloModel();
+  virtual ~GriloModel();
 
 #if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
   QHash<int, QByteArray> roleNames() const;
@@ -54,8 +58,6 @@ public:
 
   GriloDataSource *source() const;
   void setSource(GriloDataSource *source);
-
-  Q_INVOKABLE QObject *get(int index) const;
 
   int count() const;
 
@@ -70,7 +72,6 @@ private:
   void setRoleNames(const QHash<int, QByteArray> &roles);
   QHash<int, QByteArray> m_roleNames;
 #endif
-
 };
 
 #endif /* GRILO_MODEL_H */

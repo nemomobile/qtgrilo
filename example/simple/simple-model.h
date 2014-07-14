@@ -2,9 +2,10 @@
 
 /*!
  *
- * Copyright (C) 2012-2014 Jolla Ltd.
+ * Copyright (C) 2014 Jolla Ltd.
  *
  * Contact: Mohammed Hassan <mohammed.hassan@jollamobile.com>
+ * Author: Andres Gomez <agomez@igalia.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -21,29 +22,32 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GRILO_PLUGIN_H
-#define GRILO_PLUGIN_H
+#ifndef SIMPLE_MODEL_H
+#define SIMPLE_MODEL_H
 
-#include <QtGlobal>
+#include <GriloModel>
 
-#if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
-# include <QQmlExtensionPlugin>
-# define QDeclarativeExtensionPlugin QQmlExtensionPlugin
-#else
-# include <QDeclarativeExtensionPlugin>
-#endif
+#include <QModelIndex>
 
-class GriloPlugin : public QDeclarativeExtensionPlugin {
-  Q_OBJECT
-#if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
-    Q_PLUGIN_METADATA(IID "org.nemomobile.grilo")
-#endif
+class GriloRegistry;
+class GriloBrowse;
+
+class SimpleModel : public GriloModel
+{
+    Q_OBJECT
+
 public:
-  GriloPlugin(QObject *parent = 0);
-  ~GriloPlugin();
+    SimpleModel(QObject *parent = 0);
+    ~SimpleModel();
 
-  virtual void registerTypes(const char *uri);
+    QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;
+
+public slots:
+    void onItemClicked(const QModelIndex& index);
+
+private:
+    GriloRegistry *m_grlRegistry;
+    GriloBrowse *m_grlBrowse;
 };
 
-
-#endif /* GRILO_PLUGIN_H */
+#endif /* SIMPLE_MODEL_H */

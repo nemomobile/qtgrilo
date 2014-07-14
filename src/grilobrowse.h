@@ -24,11 +24,12 @@
 #ifndef GRILO_BROWSE_H
 #define GRILO_BROWSE_H
 
-#include "grilodatasource.h"
+#include <GriloQt>
+#include <GriloDataSource>
 
 class GriloMedia;
 
-class GriloBrowse : public GriloDataSource {
+class GRILO_QT_EXPORT GriloBrowse : public GriloDataSource {
   Q_OBJECT
 
   Q_PROPERTY(QString source READ source WRITE setSource NOTIFY sourceChanged);

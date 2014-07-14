@@ -1,8 +1,10 @@
 /*!
  *
- * Copyright (C) 2012 Jolla Ltd.
+ * Copyright (C) 2012-2014 Jolla Ltd.
  *
  * Contact: Mohammed Hassan <mohammed.hassan@jollamobile.com>
+ * Authors: Mohammed Hassan <mohammed.hassan@jollamobile.com>,
+ *          Andres Gomez <agomez@igalia.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -24,10 +26,18 @@
 
 
 GriloRegistry::GriloRegistry(QObject *parent) :
-  QObject(parent),
-  m_registry(0) {
+  QObject(parent) {
 
   grl_init(0, 0);
+
+  m_registry = grl_registry_get_default();
+
+  g_signal_connect(m_registry, "source-added", G_CALLBACK(grilo_source_added), this);
+  g_signal_connect(m_registry, "source-removed", G_CALLBACK(grilo_source_removed), this);
+
+  GList *sources = grl_registry_get_sources(m_registry, FALSE);
+  g_list_foreach(sources, connect_source, this);
+  g_list_free(sources);
 }
 
 GriloRegistry::~GriloRegistry() {
@@ -39,22 +49,6 @@ GriloRegistry::~GriloRegistry() {
   }
   g_signal_handlers_disconnect_by_data(m_registry, this);
   m_registry = 0;
-}
-
-void GriloRegistry::classBegin() {
-}
-
-void GriloRegistry::componentComplete() {
-  m_registry = grl_registry_get_default();
-
-  g_signal_connect(m_registry, "source-added", G_CALLBACK(grilo_source_added), this);
-  g_signal_connect(m_registry, "source-removed", G_CALLBACK(grilo_source_removed), this);
-
-  GList *sources = grl_registry_get_sources(m_registry, FALSE);
-  g_list_foreach(sources, connect_source, this);
-  g_list_free(sources);
-
-  loadConfigurationFile();
 }
 
 QStringList GriloRegistry::availableSources() {
@@ -92,15 +86,14 @@ void GriloRegistry::setConfigurationFile(const QString& file) {
     m_configurationFile = file;
     emit configurationFileChanged();
 
-    if (m_registry) {
-      loadConfigurationFile();
-    }
+    loadConfigurationFile();
   }
 }
 
 void GriloRegistry::loadConfigurationFile() {
-  if (!m_configurationFile.isEmpty() && m_registry) {
-    grl_registry_add_config_from_file(m_registry, m_configurationFile.toLocal8Bit().constData(),
+  if (!m_configurationFile.isEmpty()) {
+    grl_registry_add_config_from_file(m_registry,
+				      m_configurationFile.toLocal8Bit().constData(),
 				      NULL);
   }
 }

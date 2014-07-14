@@ -21,53 +21,39 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GRILO_SEARCH_H
-#define GRILO_SEARCH_H
+#ifndef GRILO_MULTI_SEARCH_H
+#define GRILO_MULTI_SEARCH_H
 
-#include "grilodatasource.h"
+#include <GriloQt>
+#include <GriloDataSource>
 
-class GriloSearch : public GriloDataSource {
+#include <QStringList>
+
+class GRILO_QT_EXPORT GriloMultiSearch : public GriloDataSource {
   Q_OBJECT
 
-  Q_PROPERTY(QString source READ source WRITE setSource NOTIFY sourceChanged);
+  Q_PROPERTY(QStringList sources READ sources WRITE setSources NOTIFY sourcesChanged);
   Q_PROPERTY(QString text READ text WRITE setText NOTIFY textChanged);
-  Q_PROPERTY(QVariantList supportedKeys READ supportedKeys NOTIFY supportedKeysChanged);
-  Q_PROPERTY(QVariantList slowKeys READ slowKeys NOTIFY slowKeysChanged);
-  Q_PROPERTY(bool available READ isAvailable NOTIFY availabilityChanged);
 
 public:
-  GriloSearch(QObject *parent = 0);
-  ~GriloSearch();
+  GriloMultiSearch(QObject *parent = 0);
+  ~GriloMultiSearch();
 
   bool refresh();
 
-  QString source() const;
-  void setSource(const QString& source);
+  QStringList sources() const;
+  void setSources(const QStringList& sources);
 
   QString text() const;
   void setText(const QString& text);
 
-  QVariantList supportedKeys() const;
-  QVariantList slowKeys() const;
-
-  bool isAvailable() const;
-
 signals:
-  void sourceChanged();
+  void sourcesChanged();
   void textChanged();
-  void supportedKeysChanged();
-  void slowKeysChanged();
-  void availabilityChanged();
 
 private:
-  void availableSourcesChanged();
-
-  QString m_source;
+  QStringList m_sources;
   QString m_text;
-
-  QVariantList m_slowKeys;
-  QVariantList m_supportedKeys;
-  bool m_available;
 };
 
-#endif /* GRILO_SEARCH_H */
+#endif /* GRILO_MULTI_SEARCH_H */

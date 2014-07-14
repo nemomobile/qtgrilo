@@ -2,9 +2,11 @@
 
 /*!
  *
- * Copyright (C) 2012 Jolla Ltd.
+ * Copyright (C) 2014 Jolla Ltd.
  *
  * Contact: Mohammed Hassan <mohammed.hassan@jollamobile.com>
+ * Authors: Mohammed Hassan <mohammed.hassan@jollamobile.com>,
+ *          Andres Gomez <agomez@igalia.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -21,37 +23,19 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GRILO_MULTI_SEARCH_H
-#define GRILO_MULTI_SEARCH_H
+#ifndef DECLARATIVE_GRILO_MODEL_H
+#define DECLARATIVE_GRILO_MODEL_H
 
-#include "grilodatasource.h"
-#include <QStringList>
+#include <GriloModel>
 
-class GriloMultiSearch : public GriloDataSource {
+class DeclarativeGriloModel : public GriloModel {
   Q_OBJECT
 
-  Q_PROPERTY(QStringList sources READ sources WRITE setSources NOTIFY sourcesChanged);
-  Q_PROPERTY(QString text READ text WRITE setText NOTIFY textChanged);
-
 public:
-  GriloMultiSearch(QObject *parent = 0);
-  ~GriloMultiSearch();
+  DeclarativeGriloModel(QObject *parent = 0);
+  ~DeclarativeGriloModel();
 
-  bool refresh();
-
-  QStringList sources() const;
-  void setSources(const QStringList& sources);
-
-  QString text() const;
-  void setText(const QString& text);
-
-signals:
-  void sourcesChanged();
-  void textChanged();
-
-private:
-  QStringList m_sources;
-  QString m_text;
+  Q_INVOKABLE QObject *get(int rowIndex) const;
 };
 
-#endif /* GRILO_MULTI_SEARCH_H */
+#endif /* DECLARATIVE_GRILO_MODEL_H */

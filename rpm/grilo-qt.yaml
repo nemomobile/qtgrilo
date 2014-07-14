@@ -1,0 +1,57 @@
+Name: grilo-qt
+Summary: Framework for discovering and browsing media, Qt bindings
+URL: https://github.com/nemomobile/qtgrilo
+Group: Development/Libraries
+Description: "%{summary}."
+Version: 0.0.0
+Release: 1
+Sources:
+    - "%{name}-%{version}.tar.bz2"
+    - "%{name}.yaml"
+License: BSD
+Configure: none
+Builder: qmake
+PkgConfigBR:
+    - QtCore >= 4.7.0
+    - QtDeclarative
+    - grilo-0.2
+Files:
+    - "%{_libdir}/lib*.so.%{release}*"
+SubPackages:
+    - Name: devel
+      Summary: Development files for %{name}
+      Group: Development/Libraries
+      Description: Development files for %{name}.
+      Files:
+          - "%{_datarootdir}/qt4/mkspecs/features/%{name}.prf"
+          - "%{_includedir}/qt4/GriloQt/GriloBrowse"
+          - "%{_includedir}/qt4/GriloQt/GriloDataSource"
+          - "%{_includedir}/qt4/GriloQt/GriloMedia"
+          - "%{_includedir}/qt4/GriloQt/GriloModel"
+          - "%{_includedir}/qt4/GriloQt/GriloMultiSearch"
+          - "%{_includedir}/qt4/GriloQt/GriloQt"
+          - "%{_includedir}/qt4/GriloQt/GriloQuery"
+          - "%{_includedir}/qt4/GriloQt/GriloRegistry"
+          - "%{_includedir}/qt4/GriloQt/grilobrowse.h"
+          - "%{_includedir}/qt4/GriloQt/grilodatasource.h"
+          - "%{_includedir}/qt4/GriloQt/grilomedia.h"
+          - "%{_includedir}/qt4/GriloQt/grilomodel.h"
+          - "%{_includedir}/qt4/GriloQt/grilomultisearch.h"
+          - "%{_includedir}/qt4/GriloQt/griloqt.h"
+          - "%{_includedir}/qt4/GriloQt/griloquery.h"
+          - "%{_includedir}/qt4/GriloQt/griloregistry.h"
+          - "%{_includedir}/qt4/GriloQt/grilosearch.h"
+          - "%{_libdir}/lib*.so"
+          - "%{_libdir}/pkgconfig/%{name}.pc"
+
+    - Name: qml-plugin
+      Summary: QML plugin for %{name}
+      Group: Development/Libraries
+      Description: QML plugin for %{name}.
+      Provides:
+          - nemo-qml-plugin-grilo > 0.1.5
+      Obsoletes:
+          - nemo-qml-plugin-grilo <= 0.1.5
+      Files:
+          - "%{_libdir}/qt4/imports/org/nemomobile/grilo/libgrilo-qt-qml-plugin.so"
+          - "%{_libdir}/qt4/imports/org/nemomobile/grilo/qmldir"
