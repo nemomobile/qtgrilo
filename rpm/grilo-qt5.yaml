@@ -49,9 +49,9 @@ SubPackages:
       Group: Development/Libraries
       Description: QML plugin for %{name}.
       Provides:
-          - nemo-qml-plugin-grilo-qt5 > 0.1.5
+          - nemo-qml-plugin-grilo-qt5 > 0.1.6
       Obsoletes:
-          - nemo-qml-plugin-grilo-qt5 <= 0.1.5
+          - nemo-qml-plugin-grilo-qt5 <= 0.1.6
       Files:
           - "%{_libdir}/qt5/qml/org/nemomobile/grilo/libgrilo-qt5-qml-plugin.so"
           - "%{_libdir}/qt5/qml/org/nemomobile/grilo/qmldir"
