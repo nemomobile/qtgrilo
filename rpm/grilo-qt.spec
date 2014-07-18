@@ -37,8 +37,8 @@ Development files for %{name}.
 Summary:    QML plugin for %{name}
 Group:      Development/Libraries
 Requires:   %{name} = %{version}-%{release}
-Provides:   nemo-qml-plugin-grilo > 0.1.5
-Obsoletes:  nemo-qml-plugin-grilo <= 0.1.5
+Provides:   nemo-qml-plugin-grilo > 0.1.6
+Obsoletes:  nemo-qml-plugin-grilo <= 0.1.6
 
 %description qml-plugin
 QML plugin for %{name}.

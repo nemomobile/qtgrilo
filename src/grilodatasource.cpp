@@ -340,7 +340,6 @@ void GriloDataSource::grilo_source_result_cb(GrlSource *source, guint op_id,
   }
 
   if (remaining == 0) {
-    emit that->finished();
     that->m_opId = 0;
 
     if (that->m_updateScheduled) {
@@ -362,6 +361,7 @@ void GriloDataSource::grilo_source_result_cb(GrlSource *source, guint op_id,
         emit model->countChanged();
       }
     }
+    emit that->finished();
   }
 }
 
