@@ -166,6 +166,37 @@ QString GriloMedia::mimeType() const
   return QString::fromUtf8(grl_media_get_mime(m_media));
 }
 
+int GriloMedia::width() const
+{
+    if (GRL_IS_MEDIA_IMAGE(m_media)) {
+        return grl_media_image_get_width(GRL_MEDIA_IMAGE(m_media));
+    } else if (GRL_IS_MEDIA_VIDEO(m_media)) {
+        return grl_media_video_get_width(GRL_MEDIA_VIDEO(m_media));
+    } else {
+        return -1;
+    }
+}
+
+int GriloMedia::height() const
+{
+    if (GRL_IS_MEDIA_IMAGE(m_media)) {
+        return grl_media_image_get_height(GRL_MEDIA_IMAGE(m_media));
+    } else if (GRL_IS_MEDIA_VIDEO(m_media)) {
+        return grl_media_video_get_height(GRL_MEDIA_VIDEO(m_media));
+    } else {
+        return -1;
+    }
+}
+
+int GriloMedia::orientation() const
+{
+    if (GRL_IS_MEDIA_IMAGE(m_media)) {
+        return grl_media_image_get_orientation(GRL_MEDIA_IMAGE(m_media));
+    } else {
+        return 0;
+    }
+}
+
 QVariant GriloMedia::convertValue(const GValue *value) const
 {
   if (!value) {

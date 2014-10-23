@@ -48,6 +48,10 @@ class GRILO_QT_EXPORT GriloMedia : public QObject {
   Q_PROPERTY(int trackNumber READ trackNumber CONSTANT);
   Q_PROPERTY(int childCount READ childCount CONSTANT);
   Q_PROPERTY(QString mimeType READ mimeType CONSTANT);
+  Q_PROPERTY(int width READ width CONSTANT);
+  Q_PROPERTY(int height READ height CONSTANT);
+  Q_PROPERTY(int orientation READ orientation CONSTANT);
+
 public:
   GriloMedia(GrlMedia *media, QObject *parent = 0);
   ~GriloMedia();
@@ -66,6 +70,9 @@ public:
   int trackNumber() const;
   int childCount() const;
   QString mimeType() const;
+  int width() const;
+  int height() const;
+  int orientation() const;
 
   GrlMedia *media();
   void setMedia(GrlMedia *media);
