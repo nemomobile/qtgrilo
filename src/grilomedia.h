@@ -71,6 +71,7 @@ public:
   void setMedia(GrlMedia *media);
 
   Q_INVOKABLE QVariant get(const QString& keyId) const;
+  Q_INVOKABLE QVariant get(const quint32 keyId) const;
   Q_INVOKABLE QString serialize();
 
 private:

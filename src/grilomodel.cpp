@@ -30,11 +30,6 @@ GriloModel::GriloModel(QObject *parent) :
   QAbstractListModel(parent),
   m_source(0) {
 
-  QHash<int, QByteArray> roles;
-  roles[MediaRole] = "media";
-
-  setRoleNames(roles);
-
   QObject::connect(this, SIGNAL(rowsInserted(const QModelIndex&, int, int)),
                    this, SIGNAL(countChanged()));
   QObject::connect(this, SIGNAL(rowsRemoved(const QModelIndex&, int, int)),
@@ -61,6 +56,13 @@ QVariant GriloModel::data(const QModelIndex& index, int role) const {
   switch (role) {
   case MediaRole:
     return QVariant::fromValue(m_source->media()->at(index.row()));
+#if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
+  default: {
+    QList<QByteArray> keys = roleNames().values(role);
+    if (keys.length() > 0) {
+      return m_source->media()->at(index.row())->get(role - MediaRole);
+    }}
+#endif
   }
 
   return QVariant();
@@ -102,10 +104,28 @@ int GriloModel::count() const {
 
 #if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
 QHash<int, QByteArray> GriloModel::roleNames() const {
-  return m_roleNames;
-}
+  if (m_roleNames.isEmpty())
+    grl_init(0, 0);
 
-void GriloModel::setRoleNames(const QHash<int, QByteArray> &roles) {
-  m_roleNames = roles;
+    m_roleNames[MediaRole] = "media";
+    int cursor = GRL_METADATA_KEY_INVALID;
+    const char *metadataKey;
+    while ((metadataKey = GRL_METADATA_KEY_GET_NAME(++cursor))) {
+      m_roleNames[MediaRole + cursor] = metadataKey;
+
+      QStringList splitKey = QString(metadataKey).split("-", QString::SkipEmptyParts);
+      if (splitKey.length() > 1) {
+        QByteArray camelCaseKey = splitKey[0].toUtf8();
+        for (int i = 1; i < splitKey.length(); i++) {
+          QString camelCase = splitKey[i];
+          camelCase[0] = camelCase[0].toUpper();
+          camelCaseKey += camelCase.toUtf8();
+        }
+
+        m_roleNames.insertMulti(MediaRole + cursor, camelCaseKey);
+    }
+  }
+
+  return m_roleNames;
 }
 #endif

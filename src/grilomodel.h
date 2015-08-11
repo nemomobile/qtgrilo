@@ -69,8 +69,7 @@ private:
   GriloDataSource *m_source;
 
 #if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
-  void setRoleNames(const QHash<int, QByteArray> &roles);
-  QHash<int, QByteArray> m_roleNames;
+  mutable QHash<int, QByteArray> m_roleNames;
 #endif
 };
 
