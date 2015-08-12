@@ -25,17 +25,13 @@
 #define GRILO_BROWSE_H
 
 #include <GriloQt>
-#include <GriloDataSource>
+#include <GriloSingleDataSource>
 
 class GriloMedia;
 
-class GRILO_QT_EXPORT GriloBrowse : public GriloDataSource {
+class GRILO_QT_EXPORT GriloBrowse : public GriloSingleDataSource {
   Q_OBJECT
 
-  Q_PROPERTY(QString source READ source WRITE setSource NOTIFY sourceChanged);
-  Q_PROPERTY(QVariantList supportedKeys READ supportedKeys NOTIFY supportedKeysChanged);
-  Q_PROPERTY(QVariantList slowKeys READ slowKeys NOTIFY slowKeysChanged);
-  Q_PROPERTY(bool available READ isAvailable NOTIFY availabilityChanged);
   Q_PROPERTY(QString baseMedia READ baseMedia WRITE setBaseMedia NOTIFY baseMediaChanged);
 
 public:
@@ -44,36 +40,17 @@ public:
 
   bool refresh();
 
-  QString source() const;
-  void setSource(const QString& source);
-
   QString baseMedia() const;
   void setBaseMedia(const QString& media);
 
-  QVariantList supportedKeys() const;
-  QVariantList slowKeys() const;
-
-  bool isAvailable() const;
-
 signals:
-  void sourceChanged();
-  void supportedKeysChanged();
-  void slowKeysChanged();
-  void availabilityChanged();
   void baseMediaChanged();
 
 private:
-  void availableSourcesChanged();
-
   GrlMedia *rootMedia();
-
-  QString m_source;
 
   GriloMedia *m_media;
   QString m_baseMedia;
-  QVariantList m_slowKeys;
-  QVariantList m_supportedKeys;
-  bool m_available;
 };
 
 #endif /* GRILO_BROWSE_H */

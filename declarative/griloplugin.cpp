@@ -30,6 +30,7 @@
 #include <GriloQuery>
 #include <GriloRegistry>
 #include <GriloSearch>
+#include <GriloSingleDataSource>
 
 
 #if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
@@ -55,8 +56,9 @@ void GriloPlugin::registerTypes(const char *uri) {
   qmlRegisterType<GriloQuery>(uri, 0, 1, "GriloQuery");
   // TODO: Symbol error when used :(
   //  qmlRegisterType<GriloMultiSearch>(uri, 0, 1, "GriloMultiSearch");
-  qmlRegisterType<GriloDataSource>();
-  qmlRegisterUncreatableType<GriloMedia>(uri, 0, 0, "GriloMedia", "GriloMedia can be obtained from GriloModel");
+  qmlRegisterInterface<GriloSingleDataSource>("GriloSingleDataSource");
+  qmlRegisterUncreatableType<GriloDataSource>(uri, 0, 1, "GriloDataSource", "GriloDataSource is base class providing certain enums for its derived classes");
+  qmlRegisterUncreatableType<GriloMedia>(uri, 0, 1, "GriloMedia", "GriloMedia can only be obtained from other classes");
 }
 
 #if QT_VERSION < QT_VERSION_CHECK(5, 0, 0)

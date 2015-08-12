@@ -23,6 +23,7 @@ SOURCES += \
     griloregistry.cpp \
     grilomedia.cpp \
     grilodatasource.cpp \
+    grilosingledatasource.cpp \
     grilobrowse.cpp \
     grilosearch.cpp \
     griloquery.cpp \
@@ -34,6 +35,7 @@ HEADERS += \
     griloregistry.h \
     grilomedia.h \
     grilodatasource.h \
+    grilosingledatasource.h \
     grilobrowse.h \
     grilosearch.h \
     griloquery.h \
@@ -45,7 +47,9 @@ INSTALL_HEADERS = \
     GriloRegistry \
     GriloMedia \
     GriloDataSource \
+    GriloSingleDataSource \
     GriloBrowse \
+    GriloSearch \
     GriloQuery \
     GriloMultiSearch \
     griloqt.h \
@@ -53,6 +57,7 @@ INSTALL_HEADERS = \
     griloregistry.h \
     grilomedia.h \
     grilodatasource.h \
+    grilosingledatasource.h \
     grilobrowse.h \
     grilosearch.h \
     griloquery.h \

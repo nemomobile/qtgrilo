@@ -25,16 +25,12 @@
 #define GRILO_QUERY_H
 
 #include <GriloQt>
-#include <GriloDataSource>
+#include <GriloSingleDataSource>
 
-class GRILO_QT_EXPORT GriloQuery : public GriloDataSource {
+class GRILO_QT_EXPORT GriloQuery : public GriloSingleDataSource {
   Q_OBJECT
 
-  Q_PROPERTY(QString source READ source WRITE setSource NOTIFY sourceChanged);
   Q_PROPERTY(QString query READ query WRITE setQuery NOTIFY queryChanged);
-  Q_PROPERTY(QVariantList supportedKeys READ supportedKeys NOTIFY supportedKeysChanged);
-  Q_PROPERTY(QVariantList slowKeys READ slowKeys NOTIFY slowKeysChanged);
-  Q_PROPERTY(bool available READ isAvailable NOTIFY availabilityChanged);
 
 public:
   GriloQuery(QObject *parent = 0);
@@ -42,34 +38,16 @@ public:
 
   bool refresh();
 
-  QString source() const;
-  void setSource(const QString& source);
-
   QString query() const;
   void setQuery(const QString& query);
 
-  QVariantList supportedKeys() const;
-  QVariantList slowKeys() const;
-
-  bool isAvailable() const;
-
 signals:
-  void sourceChanged();
   void queryChanged();
-  void supportedKeysChanged();
-  void slowKeysChanged();
-  void availabilityChanged();
 
 private:
-  void contentChanged(const QString &source, GrlSourceChangeType change_type, GPtrArray *changed_media);
-  void availableSourcesChanged();
+  void contentChanged(const QString &aSource, GrlSourceChangeType change_type, GPtrArray *changed_media);
 
-  QString m_source;
   QString m_query;
-
-  QVariantList m_slowKeys;
-  QVariantList m_supportedKeys;
-  bool m_available;
 };
 
 #endif /* GRILO_QUERY_H */
