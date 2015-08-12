@@ -90,6 +90,8 @@ rm -rf %{buildroot}
 %{_includedir}/qt4/GriloQt/GriloQt
 %{_includedir}/qt4/GriloQt/GriloQuery
 %{_includedir}/qt4/GriloQt/GriloRegistry
+%{_includedir}/qt4/GriloQt/GriloSearch
+%{_includedir}/qt4/GriloQt/GriloSingleDataSource
 %{_includedir}/qt4/GriloQt/grilobrowse.h
 %{_includedir}/qt4/GriloQt/grilodatasource.h
 %{_includedir}/qt4/GriloQt/grilomedia.h
@@ -99,6 +101,7 @@ rm -rf %{buildroot}
 %{_includedir}/qt4/GriloQt/griloquery.h
 %{_includedir}/qt4/GriloQt/griloregistry.h
 %{_includedir}/qt4/GriloQt/grilosearch.h
+%{_includedir}/qt4/GriloQt/grilosingledatasource.h
 %{_libdir}/lib*.so
 %{_libdir}/pkgconfig/%{name}.pc
 # >> files devel
