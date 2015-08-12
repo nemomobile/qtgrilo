@@ -145,6 +145,7 @@ protected:
   enum OperationType {
     Browse = GRL_OP_BROWSE,
     Search = GRL_OP_SEARCH,
+    MediaFromUri = GRL_OP_MEDIA_FROM_URI,
   };
 
   static void grilo_source_result_cb(GrlSource *source, guint browse_id,
@@ -174,6 +175,7 @@ protected:
   int m_insertIndex;
   QVariantList m_metadataKeys;
   QVariantList m_typeFilter;
+  QHash<QString, GriloMedia *> m_hash;
 
 protected slots:
   virtual void contentChanged(const QString &source, GrlSourceChangeType change_type,
@@ -184,7 +186,6 @@ private:
   QBasicTimer m_updateTimer;
   QList<GriloMedia *> m_media;
   QList<GriloModel *> m_models;
-  QHash<QString, GriloMedia *> m_hash;
 };
 
 #endif /* GRILO_DATA_SOURCE_H */
