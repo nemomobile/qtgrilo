@@ -31,6 +31,8 @@
 
 #include <grilo.h>
 
+class GriloMedia;
+
 class GRILO_QT_EXPORT GriloSingleDataSource : public GriloDataSource {
   Q_OBJECT
 
@@ -47,18 +49,27 @@ public:
   void setSource(const QString& source);
 
   QVariantList supportedKeys() const;
+
   QVariantList slowKeys() const;
 
   bool isAvailable() const;
+
+  Q_INVOKABLE GriloMedia* getMedia(const QUrl &url);
+  Q_INVOKABLE bool requestMedia(const QUrl &url);
 
 signals:
   void sourceChanged();
   void supportedKeysChanged();
   void slowKeysChanged();
   void availabilityChanged();
+  void mediaReceived(GriloMedia *media);
 
 protected:
   GrlSource* getSource() const;
+
+  static void grilo_source_resolve_cb(GrlSource *source, guint operation_id,
+                                      GrlMedia *media, gpointer user_data,
+                                      const GError *error);
 
 private:
   void availableSourcesChanged();
