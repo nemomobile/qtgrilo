@@ -50,6 +50,8 @@ class GRILO_QT_EXPORT GriloDataSource : public QObject {
 
 public:
   enum MetadataKeys {
+    Invalid = GRL_METADATA_KEY_INVALID,
+
     Album = GRL_METADATA_KEY_ALBUM,
     Artist = GRL_METADATA_KEY_ARTIST,
     Author = GRL_METADATA_KEY_AUTHOR,
@@ -92,6 +94,13 @@ public:
     TrackNumber = GRL_METADATA_KEY_TRACK_NUMBER,
     ModificationDate = GRL_METADATA_KEY_MODIFICATION_DATE,
     StartTime = GRL_METADATA_KEY_START_TIME,
+    Favourite = GRL_METADATA_KEY_FAVOURITE,
+    Region = GRL_METADATA_KEY_REGION,
+    Keyword = GRL_METADATA_KEY_KEYWORD,
+    Performer = GRL_METADATA_KEY_PERFORMER,
+    Producer = GRL_METADATA_KEY_PRODUCER,
+    Director = GRL_METADATA_KEY_DIRECTOR,
+    OriginalTitle = GRL_METADATA_KEY_ORIGINAL_TITLE,
   };
 
   enum TypeFilter {
