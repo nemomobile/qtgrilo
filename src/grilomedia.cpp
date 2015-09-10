@@ -56,7 +56,11 @@ QVariant GriloMedia::get(const QString& keyId) const {
     return QVariant();
   }
 
-  const GValue *gValue = grl_data_get(GRL_DATA(m_media), actualKey);
+  return get(actualKey);
+}
+
+QVariant GriloMedia::get(const quint32 keyId) const {
+  const GValue *gValue = grl_data_get(GRL_DATA(m_media), keyId);
 
   return convertValue(gValue);
 }
