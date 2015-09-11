@@ -170,6 +170,46 @@ QString GriloMedia::mimeType() const
   return QString::fromUtf8(grl_media_get_mime(m_media));
 }
 
+QDateTime GriloMedia::modificationDate() const
+{
+  if (GRL_IS_MEDIA(m_media)) {
+    GDateTime *dateTime = grl_media_get_modification_date(GRL_MEDIA(m_media));
+
+    if (dateTime) {
+        return QDateTime::fromTime_t(g_date_time_to_unix(dateTime));
+    }
+  }
+
+  return QDateTime();
+}
+
+int GriloMedia::height() const
+{
+  if (GRL_IS_MEDIA_IMAGE(m_media)) {
+    return grl_media_image_get_height(GRL_MEDIA_IMAGE(m_media));
+  }
+
+  return 0;
+}
+
+int GriloMedia::orientation() const
+{
+  if (GRL_IS_MEDIA_IMAGE(m_media)) {
+    return grl_media_image_get_orientation(GRL_MEDIA_IMAGE(m_media));
+  }
+
+  return 0;
+}
+
+int GriloMedia::width() const
+{
+  if (GRL_IS_MEDIA_IMAGE(m_media)) {
+    return grl_media_image_get_width(GRL_MEDIA_IMAGE(m_media));
+  }
+
+  return 0;
+}
+
 QVariant GriloMedia::convertValue(const GValue *value) const
 {
   if (!value) {
@@ -214,9 +254,16 @@ QVariant GriloMedia::convertValue(const GValue *value) const
     return QVariant::fromValue(g_value_get_ulong(value));
   }
 
-  // We cannot use G_TYPE_GTYPE as a checking value so we check,
-  // finally, here.
-  if (G_UNLIKELY(G_VALUE_HOLDS_GTYPE(value))) {
+  // Non constants; they cannot be part of the switch expression
+  if (G_VALUE_HOLDS(value, G_TYPE_DATE_TIME)) {
+    GDateTime *dateTime = static_cast<GDateTime *>(g_value_get_boxed(value));
+
+    if (dateTime) {
+        return QVariant::fromValue(QDateTime::fromTime_t(g_date_time_to_unix(dateTime)));
+    }
+
+    return QVariant::fromValue(QDateTime());
+  } else if (G_UNLIKELY(G_VALUE_HOLDS_GTYPE(value))) {
     return QVariant::fromValue(g_value_get_gtype(value));
   }
 

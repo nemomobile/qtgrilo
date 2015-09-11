@@ -30,6 +30,7 @@
 #include <grilo.h>
 #include <QUrl>
 #include <QVariant>
+#include <QDateTime>
 
 class GRILO_QT_EXPORT GriloMedia : public QObject {
   Q_OBJECT
@@ -48,6 +49,10 @@ class GRILO_QT_EXPORT GriloMedia : public QObject {
   Q_PROPERTY(int trackNumber READ trackNumber CONSTANT);
   Q_PROPERTY(int childCount READ childCount CONSTANT);
   Q_PROPERTY(QString mimeType READ mimeType CONSTANT);
+  Q_PROPERTY(QDateTime modificationDate READ modificationDate CONSTANT);
+  Q_PROPERTY(int height READ height CONSTANT);
+  Q_PROPERTY(int orientation READ orientation CONSTANT);
+  Q_PROPERTY(int width READ width CONSTANT);
 public:
   GriloMedia(GrlMedia *media, QObject *parent = 0);
   ~GriloMedia();
@@ -66,6 +71,10 @@ public:
   int trackNumber() const;
   int childCount() const;
   QString mimeType() const;
+  QDateTime modificationDate() const;
+  int height() const;
+  int orientation() const;
+  int width() const;
 
   GrlMedia *media();
   void setMedia(GrlMedia *media);
