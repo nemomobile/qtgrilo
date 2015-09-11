@@ -9,7 +9,7 @@ Name:       grilo-qt
 # << macros
 
 Summary:    Framework for discovering and browsing media, Qt bindings
-Version:    0.1.10
+Version:    0.1.11
 Release:    1
 Group:      Development/Libraries
 License:    BSD
