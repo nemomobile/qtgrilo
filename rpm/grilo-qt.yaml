@@ -14,7 +14,7 @@ Builder: qmake
 PkgConfigBR:
     - QtCore >= 4.7.0
     - QtDeclarative
-    - grilo-0.2
+    - grilo-0.2 >= 0.2.12
 Files:
     - "%{_libdir}/lib*.so.%{release}*"
 SubPackages:

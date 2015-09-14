@@ -14,7 +14,7 @@ Builder: qmake5
 PkgConfigBR:
     - Qt5Core
     - Qt5Qml
-    - grilo-0.2
+    - grilo-0.2 >= 0.2.12
 Files:
     - "%{_libdir}/lib*.so.%{release}*"
 SubPackages:

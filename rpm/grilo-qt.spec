@@ -20,7 +20,7 @@ Requires(post): /sbin/ldconfig
 Requires(postun): /sbin/ldconfig
 BuildRequires:  pkgconfig(QtCore) >= 4.7.0
 BuildRequires:  pkgconfig(QtDeclarative)
-BuildRequires:  pkgconfig(grilo-0.2)
+BuildRequires:  pkgconfig(grilo-0.2) >= 0.2.12
 
 %description
 %{summary}.
