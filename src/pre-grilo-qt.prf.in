@@ -1,3 +1,0 @@
-CONFIG += link_pkgconfig
-PKGCONFIG += $$TARGET
-equals(QT_MAJOR_VERSION, 5): DEFINES += QT_VERSION_5
